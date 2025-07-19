@@ -1,0 +1,23 @@
+{
+  "name": "rogue",
+  "version": "1.0.0",
+  "description": "make your own roguelike tutorial",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack serve --open",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/jquery": "^3.5.32",
+    "file-loader": "^6.2.0",
+    "html-webpack-plugin": "^5.6.3",
+    "jquery": "^3.7.1",
+    "ts-loader": "^9.5.2",
+    "typescript": "^5.8.3",
+    "webpack": "^5.100.2",
+    "webpack-cli": "^6.0.1",
+    "webpack-dev-server": "^5.2.2"
+  }
+}
