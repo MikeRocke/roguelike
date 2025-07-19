@@ -3,7 +3,7 @@ const webpack = require("webpack");
 
 module.exports = {
   entry: [
-    './src/index04_rawscreen.ts'
+    './src/index05_stack.ts'
   ],
   // output: {
   //   path: __dirname + '/dist',
