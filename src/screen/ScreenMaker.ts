@@ -1,10 +1,10 @@
+import { GameIF } from "model/GameIF";
 import { DummyScreen } from "./DummyScreen";
 import { OverScreen } from "./OverScreen";
 import { ScreenMakerIF } from "./ScreenMakerIF";
 import { ScreenStack } from "./stack/ScreenStack";
 import { StackScreenIF } from "./stack/StackScreenIF";
 
-export interface GameIF {}
 export interface BuildIF1 {makeGame():GameIF}
 
 export class ScreenMaker implements ScreenMakerIF {
