@@ -23,4 +23,4 @@ export class ScreenMaker0_Fixed implements ScreenMakerIF {
     }
 }
 
-ScreenMaker0_Fixed.GOfirst();
+ScreenMaker0_Fixed.GOfirst()
