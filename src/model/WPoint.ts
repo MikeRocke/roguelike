@@ -28,6 +28,25 @@ export class WPoint {
         return this;
     }
 
+    dir(p:WPoint): WPoint {
+        return new WPoint(
+            Math.sign(p.x-this.x),
+            Math.sign(p.y-this.y)
+        );
+    }
+
+    dist(b:WPoint) {
+        return Math.sqrt(this.squareDistance(b));
+    }
+
+    squareDistance(b: WPoint) {
+        let d = this.minus(b);
+        return (d.x*d.x + d.y*d.y);
+    }
+    minus(b: WPoint) {
+        return new WPoint(this.x-b.x, this.y-b.y);
+    }
+
     static StockDims = new WPoint(
       TPoint.StockDims.x, TPoint.StockDims.y
     );

@@ -32,6 +32,10 @@ export class BaseScreen implements StackScreenIF {
         }
     }
     npcTurn(m: Mob, player: Mob) {
+        let ai = this.game.ai;
+        if (ai) {
+            ai.turn(m, player, this.game);
+        }
         return true;
     }
 

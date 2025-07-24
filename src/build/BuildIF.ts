@@ -1,3 +1,4 @@
+import { MobAiIF } from "ai/MobAiIF";
 import { DMapIF } from "model/DMapIF";
 import { GameIF } from "model/GameIF";
 import { Mob } from "model/Mob";
@@ -8,4 +9,5 @@ export interface BuildIF {
     makeLevel(rnd: Rnd, level: number): DMapIF;
     makeMap(rnd: Rnd, level: number): DMapIF;
     makePlayer(): Mob;
+    makeAI(): MobAiIF|null;
 }
