@@ -3,5 +3,10 @@ export enum Glyph {
     Rock,
     Wall,
     Floor,
-    Unknown
+    Unknown,
+    Player,
+    Ant,
+    Bat,
+    Cat,
+    Sheep
 }

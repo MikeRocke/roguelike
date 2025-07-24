@@ -22,6 +22,11 @@ export class GlyphMap {
         add('#', Glyph.Wall);
         add('.', Glyph.Floor);
         add('?', Glyph.Unknown);
+        add('@', Glyph.Player);
+        add('a', Glyph.Ant);
+        add('b', Glyph.Bat);
+        add('c', Glyph.Cat);
+        add('s', Glyph.Sheep);
         return GlyphMap.glyphs.length;
     }
 

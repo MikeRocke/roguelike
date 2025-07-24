@@ -6,8 +6,20 @@ import { Glyph } from "./Glyph";
 import { TPoint } from "term/TPoint";
 import { GlyphInfo } from "./GlyphInfo";
 import { GlyphMap } from "./GlyphMap";
+import { GameIF } from "./GameIF";
 
 export class DrawMap {
+    static drawMapPlayer(term:TermIF, map: DMapIF, playerPosition:WPoint, game: GameIF) {
+        if (!playerPosition) {
+            playerPosition = new WPoint();
+        }
+        let vp:WPoint = new WPoint(
+            -Math.floor(term.dimension.x*0.5)+playerPosition.x,
+            -Math.floor(term.dimension.y*0.5)+playerPosition.y
+        );
+        this.drawMap(term, map, vp);
+    }
+
     static drawMap(term: TermIF, map: DMapIF, viewpoint: WPoint) {
         let termDimension = term.dimension;
         let t = new TPoint();

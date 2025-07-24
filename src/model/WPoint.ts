@@ -5,7 +5,31 @@ export class WPoint {
 
     }
 
+    set(n: WPoint) {
+        this.x = n.x;
+        this.y = n.y;
+    }
+
+    empty(): boolean {
+        return this.x == 0 && this.y == 0;
+    }
+
+    plus(p:WPoint):WPoint {
+        return this.copy().addTo(p);
+    }
+
+    copy():WPoint {
+        return new WPoint(this.x, this.y);
+    }
+
+    addTo(b: WPoint): WPoint {
+        this.x += b.x;
+        this.y += b.y;
+        return this;
+    }
+
     static StockDims = new WPoint(
       TPoint.StockDims.x, TPoint.StockDims.y
     );
+
 }
