@@ -37,6 +37,15 @@ export class DrawMap {
             }
         }
     }
+    static renderStats(term: TermIF, game: GameIF ) {
+        let player = game.player;
+        let hp = ` HP:${player.hp}`;
+        let maxHp = `MHP:${player.maxHp}`;
+        let y = 1;
+        term.txt(0, y++, hp, "yellow", "teal");
+        term.txt(0, y++, maxHp, "yellow", "teal");
+
+    }
 
     static outside: MapCell = new MapCell(Glyph.Unknown);
 }

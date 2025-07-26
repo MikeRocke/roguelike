@@ -15,6 +15,7 @@ export class BaseScreen implements StackScreenIF {
 
     draw(term: TermIF): void {
         DrawMap.drawMapPlayer(term, <DMapIF>this.game.currentMap(), this.game.player.pos, this.game);
+        DrawMap.renderStats(term, this.game);
     }
 
 

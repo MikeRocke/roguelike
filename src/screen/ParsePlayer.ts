@@ -7,6 +7,7 @@ import { WPoint } from "model/WPoint";
 import { CmdIF } from "commands/CmdIF";
 import { MoveCmd } from "commands/MoveCmd";
 import { WaitCmd } from "commands/WaitCmd";
+import { MoveBumpCmd } from "commands/MoveBumpCmd";
 
 export class ParsePlayer {
     public player: Mob;
@@ -66,13 +67,17 @@ export class ParsePlayer {
                 break;
         }
         if (!dir.empty()) {
-            return this.moveCmd(dir);
+            return this.moveBmpCmd(dir);
         }
         return null;
     }
 
     moveCmd(dir: WPoint): CmdIF {
         return new MoveCmd(dir, this.player, this.game);
+    }
+
+    moveBmpCmd(dir: WPoint): CmdIF {
+        return new MoveBumpCmd(dir, this.player, this.game);
     }
 
     waitCmd(): CmdIF {

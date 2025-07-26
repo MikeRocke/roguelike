@@ -8,11 +8,11 @@ import { TestMap } from "model/TestMap";
 import { Mob } from "model/Mob";
 import { Glyph } from "model/Glyph";
 import { MobAiIF } from "ai/MobAiIF";
-import { MobAi_sheep } from "ai/MobAi_sheep";
+import { MobAi_cat } from "ai/MobAi_cat";
 
 export class Builder implements BuildIF {
     makeAI(): MobAiIF | null {
-        return new MobAi_sheep();
+        return new MobAi_cat();
     }
     makePlayer(): Mob {
         return new Mob(Glyph.Player, 20, 12);
@@ -28,11 +28,16 @@ export class Builder implements BuildIF {
     }
     makeLevel(rnd: Rnd, level: number): DMapIF {
         let map = this.makeMap(rnd, level);
-        this.makeSheepRing(map,rnd);
+    //    this.makeSheepRing(map,rnd);
+        this.makeCatRing(map,rnd);
         return map;
     }
     makeSheepRing(map:DMapIF, rnd: Rnd) {
         this.makeMobRing(Glyph.Sheep, map, rnd);
+    }
+
+    makeCatRing(map:DMapIF, rnd: Rnd) {
+        this.makeMobRing(Glyph.Cat, map, rnd);
     }
     makeMobRing(g: Glyph, map: DMapIF, rnd: Rnd) {
         let dim = map.dim;

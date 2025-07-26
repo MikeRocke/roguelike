@@ -14,8 +14,10 @@ export class Mob {
     glyph: Glyph = Glyph.Unknown;
     name: string = "";
     pos: WPoint = new WPoint();
+    hp: number = 3;
+    maxHp: number = 3;
 
     alive(): boolean {
-        return true;
+        return this.hp > 0;
     }
 }
