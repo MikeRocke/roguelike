@@ -33,7 +33,7 @@ export class DrawMap {
                     cell = this.outside;
                 }
                 let i:GlyphInfo = GlyphMap.info(cell.glyph());
-                term.at(t.x, t.y, i.c, 'gray', 'lightgrey');
+                term.at(t.x, t.y, i.c, i.fg, i.bg);
             }
         }
     }
