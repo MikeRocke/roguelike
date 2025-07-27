@@ -25,7 +25,7 @@ export class HealthAdj {
     }
     static mobDies(m: Mob, game: GameIF) {
         let s = `${m.name} dies in a fit of agony`;
-        console.log(s);
+        game.message(s);
         let map = <DMapIF> game.currentMap();
         map.removeMob(m);
     }

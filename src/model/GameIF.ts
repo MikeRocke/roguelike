@@ -8,4 +8,5 @@ export interface GameIF {
     player: Mob;
     ai: MobAiIF|null;
     currentMap(): DMapIF|null;
+    message(s:string):void;
 }
