@@ -16,6 +16,7 @@ export class BaseScreen implements StackScreenIF {
     draw(term: TermIF): void {
         DrawMap.drawMapPlayer(term, <DMapIF>this.game.currentMap(), this.game.player.pos, this.game);
         DrawMap.renderStats(term, this.game);
+        DrawMap.renderMessage(term, this.game);
     }
 
 
@@ -30,6 +31,15 @@ export class BaseScreen implements StackScreenIF {
         var mob: Mob;
         for (mob = q.next(); !mob.isPlayer && !this.over(stack); mob = q.next()) {
             this.npcTurn(mob, player);
+        }
+        this.handleMessages(stack);
+    }
+    handleMessages(stack: StackIF) {
+        if (!this.game.log) {
+            return;
+        }
+        if (this.game.log.queuedMessages()) {
+            stack.push(this.make.more(this.game));
         }
     }
     npcTurn(m: Mob, player: Mob) {

@@ -5,6 +5,7 @@ import { ScreenMakerIF } from "./ScreenMakerIF";
 import { StackScreenIF } from "./stack/StackScreenIF";
 import { BuildIF1 } from "./ScreenMaker";
 import { ScreenStack } from "./stack/ScreenStack";
+import { MoreScreen } from "./MoreScreen";
 
 export class ScreenMakerFixed implements ScreenMakerIF {
     game: GameIF | null = null;
@@ -12,6 +13,9 @@ export class ScreenMakerFixed implements ScreenMakerIF {
     constructor(
         public build: BuildIF1
     ) {}
+    more(game: GameIF | null): StackScreenIF {
+        return new MoreScreen(<GameIF> game, this);
+    }
 
     newGame(): StackScreenIF {
         this.game = this.build.makeGame();

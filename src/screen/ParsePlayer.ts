@@ -8,6 +8,8 @@ import { CmdIF } from "commands/CmdIF";
 import { MoveCmd } from "commands/MoveCmd";
 import { WaitCmd } from "commands/WaitCmd";
 import { MoveBumpCmd } from "commands/MoveBumpCmd";
+import { StackScreenIF } from "./stack/StackScreenIF";
+import { LogScreen } from "./LogScreen";
 
 export class ParsePlayer {
     public player: Mob;
@@ -39,6 +41,7 @@ export class ParsePlayer {
     parseKeyCmd(c: string, screenStack: StackIF,
         e: JQuery.KeyDownEvent | null): CmdIF | null {
         let dir = new WPoint();
+        var screen : StackScreenIF | undefined = undefined;
         switch (c) {
             case "ArrowLeft":
             case 'h':
@@ -65,6 +68,15 @@ export class ParsePlayer {
             case "K":
                 dir.y -= 1;
                 break;
+            case 'q':
+               screen = new LogScreen(this.game, this.maker);
+                break;
+            case '.':
+                return this.waitCmd();
+        }
+        if (screen) {
+            screenStack.push(screen);
+            return null;
         }
         if (!dir.empty()) {
             return this.moveBmpCmd(dir);

@@ -16,6 +16,9 @@ export class ScreenMaker implements ScreenMakerIF {
         public overScreen: (game:GameIF, sm:ScreenMakerIF)=>StackScreenIF,
         public init: (sm:ScreenMakerIF)=>StackScreenIF
     ) {}
+    more(game: GameIF | null): StackScreenIF {
+        return new DummyScreen(this);
+    }
 
     newGame(): StackScreenIF {
         this.game = this.build.makeGame();

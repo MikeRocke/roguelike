@@ -37,6 +37,30 @@ export class DrawMap {
             }
         }
     }
+    static renderMessage(term: TermIF, game: GameIF) {
+        let log = game.log;
+        if (!log) {
+            return;
+        }
+        let line = log.top();
+        let number = log.len();
+        let s = (number > 1)
+        ? `${line} (${number} more)`
+        : line;
+
+        s = this.extend(s, term);
+        term.txt(0, 0, s, 'cyan', 'blue');
+    }
+    static extend(s: string, term: TermIF): string {
+        let dim = term.dimension;
+        if (!this.mask) {
+            this.mask = ' '.repeat(dim.x);
+        }
+        return s + this.mask.substr(0, dim.x - s.length);
+    }
+    static mask:string='';
+
+
     static renderStats(term: TermIF, game: GameIF ) {
         let player = game.player;
         let hp = ` HP:${player.hp}`;

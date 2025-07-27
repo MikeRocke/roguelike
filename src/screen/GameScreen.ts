@@ -18,6 +18,9 @@ export class GameScreen extends BaseScreen {
 
     playerKeyTurn(stack: StackIF, code: string,
         e: JQuery.KeyDownEvent | null): void {
+        if (this.game.log) {
+            this.game.log.clearQueue();
+        }
         if (this.playerTurn(stack, code, e)) {
             this.npcTurns(stack);
         }
