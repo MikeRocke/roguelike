@@ -8,12 +8,12 @@ import { TestMap } from "model/TestMap";
 import { Mob } from "model/Mob";
 import { Glyph } from "model/Glyph";
 import { MobAiIF } from "ai/MobAiIF";
-import { MobAi_cat } from "ai/MobAi_cat";
 import { FreeSpace } from "./FreeSpace";
+import { AiSwitcher } from "ai/AiSwitcher";
 
 export class Builder implements BuildIF {
     makeAI(): MobAiIF | null {
-        return new MobAi_cat();
+        return new AiSwitcher();
     }
     makePlayer(): Mob {
         return new Mob(Glyph.Player, 20, 12);
@@ -28,30 +28,54 @@ export class Builder implements BuildIF {
     }
     makeLevel(rnd: Rnd, level: number): DMapIF {
         let map = this.makeMap(rnd, level);
-    //    this.makeSheepRing(map,rnd);
-        this.makeCatRing(map,rnd);
+        //    this.makeSheepRing(map,rnd);
         this.addLevelStairs(map, level, rnd);
+        this.addMobsToLevel(map, rnd);
         return map;
     }
-    makeSheepRing(map:DMapIF, rnd: Rnd) {
+    addMobsToLevel(map: DMapIF, rnd: Rnd) {
+        switch (map.level) {
+            case 0: default: this.makeCatRing(map, rnd); break;
+            case 1: this.makeAnts(map, rnd); break;
+        }
+    }
+    makeAnts(map: DMapIF, rnd: Rnd) {
+        this.makeMobs(map, rnd, Glyph.Ant, 10);
+    }
+    makeMobs(map: DMapIF, rnd: Rnd, glyph: Glyph, rate: number) {
+        let dim = map.dim;
+        let p = new WPoint();
+        for (p.y = 1; p.y < dim.y - 1; ++p.y) {
+            for (p.x = 1; p.x < dim.x - 1; ++p.x) {
+                if (!rnd.oneIn(rate)) {
+                    continue;
+                }
+                if (map.blocked(p)) {
+                    continue;
+                }
+                this.addNPC(glyph, p.x, p.y, map, 0);
+            }
+        }
+    }
+    makeSheepRing(map: DMapIF, rnd: Rnd) {
         this.makeMobRing(Glyph.Sheep, map, rnd);
     }
 
-    makeCatRing(map:DMapIF, rnd: Rnd) {
+    makeCatRing(map: DMapIF, rnd: Rnd) {
         this.makeMobRing(Glyph.Cat, map, rnd);
     }
     makeMobRing(g: Glyph, map: DMapIF, rnd: Rnd) {
         let dim = map.dim;
         let c = new WPoint(
-            Math.floor(dim.x/2),
-            Math.floor(dim.y/2)
+            Math.floor(dim.x / 2),
+            Math.floor(dim.y / 2)
         );
 
         let p = new WPoint();
-        for (p.y = 1; p.y < dim.y-1; ++p.y) {
-            for (p.x = 1; p.x < dim.x-1; ++p.x) {
-               let d = c.dist(p);
-                if (d<7 || d > 9) {
+        for (p.y = 1; p.y < dim.y - 1; ++p.y) {
+            for (p.x = 1; p.x < dim.x - 1; ++p.x) {
+                let d = c.dist(p);
+                if (d < 7 || d > 9) {
                     continue;
                 }
                 if (map.blocked(p)) {
@@ -62,7 +86,7 @@ export class Builder implements BuildIF {
         }
     }
     addNPC(g: Glyph, x: number, y: number, map: DMapIF, level: number) {
-        let mob = new Mob(g,x,y);
+        let mob = new Mob(g, x, y);
         map.addNPC(mob);
         return mob;
     }
@@ -83,8 +107,8 @@ export class Builder implements BuildIF {
     }
 
     addLevelStairs(map: DMapIF, level: number, rnd: Rnd) {
-      (level == 0) ? this.addStairs0(map)
-        : this.addStairs(map, rnd);
+        (level == 0) ? this.addStairs0(map)
+            : this.addStairs(map, rnd);
     }
     addStairs0(map: DMapIF) {
         let pos = this.centerPos(map.dim);
@@ -97,7 +121,7 @@ export class Builder implements BuildIF {
         this.addStair(map, rnd, Glyph.StairsUp);
     }
     addStair(map: DMapIF, rnd: Rnd, stair: Glyph) {
-        let p = <WPoint> FreeSpace.findFree(map, rnd);
+        let p = <WPoint>FreeSpace.findFree(map, rnd);
         map.cell(p).env = stair;
         return true;
     }
