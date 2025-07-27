@@ -3,6 +3,8 @@ import { CmdBase } from "./CmdBase";
 import { Mob } from "model/Mob";
 import { GameIF } from "model/GameIF";
 import { DMapIF } from "model/DMapIF";
+import { Glyph } from "model/Glyph";
+import { StairCmd } from "./StairCmd";
 
 export class MoveCmd extends CmdBase {
     constructor(public dir: WPoint, public me: Mob, public game: GameIF) {
@@ -15,7 +17,23 @@ export class MoveCmd extends CmdBase {
         let legal = !map.blocked(newPoint);
         if (legal) {
             map.moveMob(this.me, newPoint);
+            if (this.me.isPlayer) {
+                this.dealWithStairs(map, newPoint);
+            }
         }
         return true;
+    }
+    dealWithStairs(map: DMapIF, point: WPoint) {
+        var dir: number;
+        switch (map.cell(point).env) {
+            case Glyph.StairsUp:
+                dir=-1;
+                break;
+            case Glyph.StairsDown:
+                dir = 1;
+                break;
+            default: return;
+        }
+        new StairCmd(dir, this.game).raw();
     }
 }

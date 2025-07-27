@@ -51,4 +51,7 @@ export class WPoint {
       TPoint.StockDims.x, TPoint.StockDims.y
     );
 
+    eq(b:WPoint): boolean {
+        return this.x == b.x && this.y == b.y;
+    }
 }

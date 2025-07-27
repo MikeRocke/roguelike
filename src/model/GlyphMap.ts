@@ -28,6 +28,8 @@ export class GlyphMap {
         add(bg, '#43a','b', Glyph.Bat);
         add(bg, '#6c4','c', Glyph.Cat);
         add(bg, '#294','s', Glyph.Sheep);
+        add(bg, 'orange', '>', Glyph.StairsDown);
+        add(bg, 'orange', '<', Glyph.StairsUp);
         return GlyphMap.glyphs.length;
     }
 

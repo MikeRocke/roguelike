@@ -9,6 +9,7 @@ import { Mob } from "model/Mob";
 import { Glyph } from "model/Glyph";
 import { MobAiIF } from "ai/MobAiIF";
 import { MobAi_cat } from "ai/MobAi_cat";
+import { FreeSpace } from "./FreeSpace";
 
 export class Builder implements BuildIF {
     makeAI(): MobAiIF | null {
@@ -19,9 +20,8 @@ export class Builder implements BuildIF {
     }
     makeGame(): GameIF {
         let rnd = new Rnd(42);
-        let game = new Game(rnd);
-        game.player = this.makePlayer();
-        game.map = this.makeLevel(rnd, 0);
+        let player = this.makePlayer();
+        let game = new Game(rnd, player, this);
         this.enterFirstLevel(game);
         game.ai = this.makeAI();
         return game;
@@ -30,6 +30,7 @@ export class Builder implements BuildIF {
         let map = this.makeMap(rnd, level);
     //    this.makeSheepRing(map,rnd);
         this.makeCatRing(map,rnd);
+        this.addLevelStairs(map, level, rnd);
         return map;
     }
     makeSheepRing(map:DMapIF, rnd: Rnd) {
@@ -72,12 +73,34 @@ export class Builder implements BuildIF {
         return TestMap.test(wdim, rnd, level);
     }
     enterFirstLevel(game: GameIF) {
-        let map = <DMapIF>game.currentMap();
+        let dungeon = game.dungeon;
+        let map = dungeon.currentMap(game);
         let newPoint = this.centerPos(map.dim);
-        map.enterMap(game.player, newPoint);
+        game.dungeon.playerSwitchLevel(dungeon.level, newPoint, game);
     }
     centerPos(p: WPoint) {
         return new WPoint(Math.floor(p.x / 2), Math.floor(p.y / 2));
     }
+
+    addLevelStairs(map: DMapIF, level: number, rnd: Rnd) {
+      (level == 0) ? this.addStairs0(map)
+        : this.addStairs(map, rnd);
+    }
+    addStairs0(map: DMapIF) {
+        let pos = this.centerPos(map.dim);
+        let p = new WPoint(3, 0).addTo(pos);
+        map.cell(p).env = Glyph.StairsDown;
+    }
+
+    addStairs(map: DMapIF, rnd: Rnd) {
+        this.addStair(map, rnd, Glyph.StairsDown);
+        this.addStair(map, rnd, Glyph.StairsUp);
+    }
+    addStair(map: DMapIF, rnd: Rnd, stair: Glyph) {
+        let p = <WPoint> FreeSpace.findFree(map, rnd);
+        map.cell(p).env = stair;
+        return true;
+    }
+
 
 }

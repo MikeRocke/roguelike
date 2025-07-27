@@ -65,9 +65,11 @@ export class DrawMap {
         let player = game.player;
         let hp = ` HP:${player.hp}`;
         let maxHp = `MHP:${player.maxHp}`;
+        let level = `LVL:${game.dungeon.level}`;
         let y = 1;
         term.txt(0, y++, hp, "yellow", "teal");
         term.txt(0, y++, maxHp, "yellow", "teal");
+        term.txt(0, y++, level, "yellow", "teal");
 
     }
 
