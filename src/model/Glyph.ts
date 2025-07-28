@@ -10,5 +10,7 @@ export enum Glyph {
     Cat,
     Sheep,
     StairsDown,
-    StairsUp
+    StairsUp,
+    DoorsOpen,
+    DoorsClosed
 }

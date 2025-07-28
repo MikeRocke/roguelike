@@ -30,6 +30,8 @@ export class GlyphMap {
         add(bg, '#294','s', Glyph.Sheep);
         add(bg, 'orange', '>', Glyph.StairsDown);
         add(bg, 'orange', '<', Glyph.StairsUp);
+        add(bg, 'orange', ',', Glyph.DoorsOpen);
+        add(bg, 'orange', '+', Glyph.DoorsClosed);
         return GlyphMap.glyphs.length;
     }
 

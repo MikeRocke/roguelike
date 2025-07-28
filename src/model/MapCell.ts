@@ -11,7 +11,11 @@ export class MapCell {
             return this.env;
         }
     }
+
+    opaque() : boolean {
+       return this.env == Glyph.Wall || this.env == Glyph.Rock || this.env == Glyph.DoorsClosed;
+    }
     blocked(): boolean {
-        return (!!this.mob || this.env == Glyph.Wall);
+        return (!!this.mob || this.opaque());
     }
 }

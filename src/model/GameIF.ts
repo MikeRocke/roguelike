@@ -15,4 +15,5 @@ export interface GameIF {
     build: BuildIF;
     currentMap(): DMapIF|null;
     message(s:string):void;
+    flash(s:string):void;
 }

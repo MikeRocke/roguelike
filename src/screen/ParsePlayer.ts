@@ -10,6 +10,8 @@ import { WaitCmd } from "commands/WaitCmd";
 import { MoveBumpCmd } from "commands/MoveBumpCmd";
 import { StackScreenIF } from "./stack/StackScreenIF";
 import { LogScreen } from "./LogScreen";
+import { DoorCmd } from "commands/DoorCmd";
+import { CmdDirScreen } from "./CmdDirScreen";
 
 export class ParsePlayer {
     public player: Mob;
@@ -73,6 +75,9 @@ export class ParsePlayer {
                 break;
             case '.':
                 return this.waitCmd();
+            case 'c':
+                screen = this.doorCmd();
+                break;
         }
         if (screen) {
             screenStack.push(screen);
@@ -84,6 +89,10 @@ export class ParsePlayer {
         return null;
     }
 
+    doorCmd():StackScreenIF {
+        let cmd = new DoorCmd(this.player, this.game);
+        return new CmdDirScreen(cmd, this.game, this.maker);
+    }
     moveCmd(dir: WPoint): CmdIF {
         return new MoveCmd(dir, this.player, this.game);
     }

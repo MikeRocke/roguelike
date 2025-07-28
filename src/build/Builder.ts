@@ -10,6 +10,7 @@ import { Glyph } from "model/Glyph";
 import { MobAiIF } from "ai/MobAiIF";
 import { FreeSpace } from "./FreeSpace";
 import { AiSwitcher } from "ai/AiSwitcher";
+import { MapGenerator } from "./MapGenerator";
 
 export class Builder implements BuildIF {
     makeAI(): MobAiIF | null {
@@ -94,7 +95,14 @@ export class Builder implements BuildIF {
 
     makeMap(rnd: Rnd, level: number): DMapIF {
         let wdim = new WPoint(WPoint.StockDims.x, WPoint.StockDims.y);
-        return TestMap.test(wdim, rnd, level);
+        var map: DMapIF;
+        switch (level) {
+            case 0: map = TestMap.test(wdim, rnd, level); break;
+            // case 0: map = MapGenerator.test(level); break;
+            case 1: map = MapGenerator.test(level); break;
+            default: map = TestMap.test(wdim, rnd, level); break;
+        }
+        return map;
     }
     enterFirstLevel(game: GameIF) {
         let dungeon = game.dungeon;
@@ -112,7 +120,7 @@ export class Builder implements BuildIF {
     }
     addStairs0(map: DMapIF) {
         let pos = this.centerPos(map.dim);
-        let p = new WPoint(3, 0).addTo(pos);
+        let p = new WPoint(2, 0).addTo(pos);
         map.cell(p).env = Glyph.StairsDown;
     }
 

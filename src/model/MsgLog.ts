@@ -1,8 +1,10 @@
 export class MsgLog {
     queue: string[] = [];
     archive: string[] = [];
-    msg(s: string) {
-        this.archive.push(s);
+    msg(s: string, flash: boolean = false) {
+        if (!flash) {
+            this.archive.push(s);
+        }
         this.queue.push(s);
         console.log(s);
     }
@@ -16,10 +18,10 @@ export class MsgLog {
         this.queue = [];
     }
 
-    queuedMessages():boolean {
-        return this.len()>1;
+    queuedMessages(): boolean {
+        return this.len() > 1;
     }
-    len():number {
+    len(): number {
         return this.queue.length;
     }
     empty() {

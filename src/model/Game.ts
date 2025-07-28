@@ -19,5 +19,8 @@ export class Game implements GameIF {
     message(s:string) {
         this.log.msg(s);
     }
+    flash(s:string) {
+        this.log.msg(s, true);
+    }
 
 }

@@ -1,6 +1,7 @@
 import { GameIF } from "model/GameIF";
 import { Mob } from "model/Mob";
 import { CmdIF } from "./CmdIF";
+import { WPoint } from "model/WPoint";
 
 export abstract class CmdBase implements CmdIF {
     exec(): boolean {
@@ -16,4 +17,7 @@ export abstract class CmdBase implements CmdIF {
         return this.exec();
     }
     constructor(public me: Mob, public game: GameIF) {}
+    setDir(dir: WPoint): CmdIF {
+        throw new Error("Method not implemented.");
+    }
 }
