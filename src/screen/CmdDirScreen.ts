@@ -5,6 +5,7 @@ import { ScreenMakerIF } from "./ScreenMakerIF";
 import { TermIF } from "term/TermIF";
 import { StackIF } from "./stack/StackIF";
 import { WPoint } from "model/WPoint";
+import { DrawMap } from "model/DrawMap";
 
 export class CmdDirScreen extends BaseScreen {
     name: string = 'dir';
@@ -13,10 +14,13 @@ export class CmdDirScreen extends BaseScreen {
     }
 
     draw(term: TermIF): void {
-        term.txt(0, 0, "What direction?", "yellow", "black");
+        let message = "What direction?";
+        message = DrawMap.extend(message, term);
+        term.txt(0, 0, message, "yellow", "black");
         let R = ['H Left', 'J Down', 'K Up', 'L Right'];
         for (var i = 0; i < R.length; ++i) {
-            term.txt(0, i + 1, R[i], "yellow", "black");
+            message = DrawMap.extend(R[i], term);
+            term.txt(0, i + 1, message, "yellow", "black");
 
         }
     }
