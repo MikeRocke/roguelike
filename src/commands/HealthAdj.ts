@@ -1,6 +1,7 @@
 import { DMapIF } from "model/DMapIF";
 import { GameIF } from "model/GameIF";
 import { Mob } from "model/Mob";
+import { AutoHeal } from "./AutoHeal";
 
 export class HealthAdj {
     public static adjust(m: Mob, amount: number, game: GameIF, actor: Mob | null) {
@@ -15,6 +16,7 @@ export class HealthAdj {
         }
     }
     static dmg(m: Mob, amount: number, game: GameIF, actor: Mob | null) {
+        AutoHeal.combatResets(m, actor, game);
         console.log('dmg', amount, m.hp);
         m.hp -= amount;
         console.log('d_to', amount, m.hp);

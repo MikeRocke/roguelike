@@ -6,11 +6,13 @@ import { Rnd } from "./Rnd";
 import { MsgLog } from "./MsgLog";
 import { Dungeon } from "./Dungeon";
 import { BuildIF } from "build/BuildIF";
+import { AutoHeal } from "commands/AutoHeal";
 
 export class Game implements GameIF {
     ai: MobAiIF | null = null;
     log: MsgLog = new MsgLog();
     dungeon: Dungeon = new Dungeon();
+    autoHeal: AutoHeal = new AutoHeal();
 
     constructor(public rnd: Rnd, public player: Mob, public build: BuildIF) {}
     currentMap(): DMapIF | null {

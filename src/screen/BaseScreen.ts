@@ -6,6 +6,7 @@ import { DrawMap } from "model/DrawMap";
 import { StackIF } from "./stack/StackIF";
 import { Mob } from "model/Mob";
 import { DMapIF } from "model/DMapIF";
+import { TurnQueue } from "model/TurnQueue";
 
 export class BaseScreen implements StackScreenIF {
     name: string = 'base';
@@ -28,11 +29,21 @@ export class BaseScreen implements StackScreenIF {
         let player = <Mob>this.game.player;
         let map = <DMapIF>this.game.currentMap();
         let q = map.turnQueue;
+        this.finishPlayerTurn(q);
         var mob: Mob;
         for (mob = q.next(); !mob.isPlayer && !this.over(stack); mob = q.next()) {
             this.npcTurn(mob, player);
         }
         this.handleMessages(stack);
+    }
+    finishPlayerTurn(q: TurnQueue) {
+        let player = q.currentMob();
+        if (!player.isPlayer) {
+            throw `${player.name} is not player?`;
+        }
+        if (this.game.autoHeal) {
+            this.game.autoHeal.turn(player, this.game);
+        }
     }
     handleMessages(stack: StackIF) {
         if (!this.game.log) {
