@@ -1,4 +1,5 @@
 import { Glyph } from "./Glyph";
+import { Mood } from "./Mood";
 import { WPoint } from "./WPoint";
 
 export class Mob {
@@ -16,6 +17,7 @@ export class Mob {
     pos: WPoint = new WPoint();
     hp: number = 3;
     maxHp: number = 3;
+    mood: Mood = Mood.Asleep;
 
     alive(): boolean {
         return this.hp > 0;

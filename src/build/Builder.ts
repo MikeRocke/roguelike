@@ -17,7 +17,9 @@ export class Builder implements BuildIF {
         return new AiSwitcher();
     }
     makePlayer(): Mob {
-        return new Mob(Glyph.Player, 20, 12);
+        let player = new Mob(Glyph.Player, 20, 12);
+        player.maxHp = 5;
+        return player;
     }
     makeGame(): GameIF {
         let rnd = new Rnd(42);
@@ -37,8 +39,12 @@ export class Builder implements BuildIF {
     addMobsToLevel(map: DMapIF, rnd: Rnd) {
         switch (map.level) {
             case 0: default: this.makeCatRing(map, rnd); break;
-            case 1: this.makeAnts(map, rnd); break;
+            case 1: this.makeBatsAndAnts(map, rnd); break;
         }
+    }
+    makeBatsAndAnts(map: DMapIF, rnd: Rnd) {
+        this.makeMobs(map, rnd, Glyph.Ant, 15);
+        this.makeMobs(map, rnd, Glyph.Bat, 15);
     }
     makeAnts(map: DMapIF, rnd: Rnd) {
         this.makeMobs(map, rnd, Glyph.Ant, 10);
