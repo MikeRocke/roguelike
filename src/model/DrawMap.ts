@@ -7,23 +7,29 @@ import { TPoint } from "term/TPoint";
 import { GlyphInfo } from "./GlyphInfo";
 import { GlyphMap } from "./GlyphMap";
 import { GameIF } from "./GameIF";
+import { CanSee } from "commands/CanSee";
 
 export class DrawMap {
-    static drawMapPlayer(term:TermIF, map: DMapIF, playerPosition:WPoint, game: GameIF) {
+    static drawMapPlayer(term: TermIF, map: DMapIF, playerPosition: WPoint, game: GameIF) {
         if (!playerPosition) {
             playerPosition = new WPoint();
         }
-        let vp:WPoint = new WPoint(
-            -Math.floor(term.dimension.x*0.5)+playerPosition.x,
-            -Math.floor(term.dimension.y*0.5)+playerPosition.y
+        let vp: WPoint = new WPoint(
+            -Math.floor(term.dimension.x * 0.5) + playerPosition.x,
+            -Math.floor(term.dimension.y * 0.5) + playerPosition.y
         );
-        this.drawMap(term, map, vp);
+        this.drawMap(term, map, vp, playerPosition, game);
     }
 
-    static drawMap(term: TermIF, map: DMapIF, viewpoint: WPoint) {
+    static drawMap(term: TermIF, map: DMapIF, viewpoint: WPoint, playerPosition: WPoint, game: GameIF) {
+        let unlit: string = '#001';
+        let farlit: string = '#124';
+        let farDist: number = 50;
         let termDimension = term.dimension;
         let t = new TPoint();
         let w = new WPoint();
+        var fg: string;
+        var bg: string;
         for (t.y = 0, w.y = viewpoint.y; t.y < termDimension.y; ++t.y, ++w.y) {
             for (t.x = 0, w.x = viewpoint.x; t.x < termDimension.x; ++t.x, ++w.x) {
                 let cell: MapCell;
@@ -32,8 +38,23 @@ export class DrawMap {
                 } else {
                     cell = this.outside;
                 }
-                let i:GlyphInfo = GlyphMap.info(cell.glyph());
-                term.at(t.x, t.y, i.c, i.fg, i.bg);
+                let dist: number = w.squareDistance(playerPosition);
+                let far: boolean = (dist > farDist);
+                let seeMob = !!cell.mob && !far && CanSee.canSee(cell.mob.pos, playerPosition, map, true);
+                let glyph = (seeMob ? cell.mob!.glyph : cell.glyph());
+                let i: GlyphInfo = GlyphMap.info(glyph);
+                if (far) {
+                    bg = unlit;
+                    fg = (cell.lit ? farlit : unlit);
+                } else {
+                    bg = i.bg;
+                    fg = i.fg;
+                    if (!cell.lit) {
+                        cell.lit = true;
+                    }
+
+                }
+                term.at(t.x, t.y, i.c, fg, bg);
             }
         }
     }
@@ -45,8 +66,8 @@ export class DrawMap {
         let line = log.top();
         let number = log.len();
         let s = (number > 1)
-        ? `${line} (${number} more)`
-        : line;
+            ? `${line} (${number} more)`
+            : line;
 
         s = this.extend(s, term);
         term.txt(0, 0, s, 'cyan', 'blue');
@@ -58,10 +79,10 @@ export class DrawMap {
         }
         return s + this.mask.substr(0, dim.x - s.length);
     }
-    static mask:string='';
+    static mask: string = '';
 
 
-    static renderStats(term: TermIF, game: GameIF ) {
+    static renderStats(term: TermIF, game: GameIF) {
         let player = game.player;
         let hp = ` HP:${player.hp}`;
         let maxHp = `MHP:${player.maxHp}`;
