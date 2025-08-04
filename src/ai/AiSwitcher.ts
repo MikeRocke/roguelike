@@ -11,13 +11,15 @@ export class AiSwitcher implements MobAiIF {
     antAi: MobAiIF = new MobAi_ant();
     batAi: MobAiIF = MoodAi.stockMood(2);
 
+    constructor(public standardAi: MobAiIF) {}
+
     turn(me: Mob, enemy: Mob, game: GameIF): boolean {
         var ai:MobAiIF;
         switch(me.glyph) {
                 case Glyph.Ant: ai = this.antAi; break;
                 case Glyph.Cat: ai = this.catAi; break;
                 case Glyph.Bat: ai = this.batAi; break;
-                default: ai=this.catAi; break;
+                default: ai=this.standardAi; break;
         }
 
         return ai.turn(me, enemy, game);

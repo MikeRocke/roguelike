@@ -11,14 +11,17 @@ import { MobAiIF } from "ai/MobAiIF";
 import { FreeSpace } from "./FreeSpace";
 import { AiSwitcher } from "ai/AiSwitcher";
 import { MapGenerator } from "./MapGenerator";
+import { GlyphMap } from "model/GlyphMap";
+import { MoodAi } from "ai/MoodAi";
 
 export class Builder implements BuildIF {
     makeAI(): MobAiIF | null {
-        return new AiSwitcher();
+        return new AiSwitcher(MoodAi.stockMood(1));
     }
     makePlayer(): Mob {
         let player = new Mob(Glyph.Player, 20, 12);
-        player.maxHp = 5;
+        player.maxHp = 50;
+        player.hp = player.maxHp;
         return player;
     }
     makeGame(): GameIF {
@@ -38,18 +41,12 @@ export class Builder implements BuildIF {
     }
     addMobsToLevel(map: DMapIF, rnd: Rnd) {
         switch (map.level) {
-            case 0: default: this.makeCatRing(map, rnd); break;
-            case 1: this.makeBatsAndAnts(map, rnd); break;
+            case 0:  this.makeCatRing(map, rnd); break;
+            default: this.makeMobs(map, rnd, 15); break;
         }
     }
-    makeBatsAndAnts(map: DMapIF, rnd: Rnd) {
-        this.makeMobs(map, rnd, Glyph.Ant, 15);
-        this.makeMobs(map, rnd, Glyph.Bat, 15);
-    }
-    makeAnts(map: DMapIF, rnd: Rnd) {
-        this.makeMobs(map, rnd, Glyph.Ant, 10);
-    }
-    makeMobs(map: DMapIF, rnd: Rnd, glyph: Glyph, rate: number) {
+
+    makeMobs(map: DMapIF, rnd: Rnd, rate: number) {
         let dim = map.dim;
         let p = new WPoint();
         for (p.y = 1; p.y < dim.y - 1; ++p.y) {
@@ -60,10 +57,27 @@ export class Builder implements BuildIF {
                 if (map.blocked(p)) {
                     continue;
                 }
-                this.addNPC(glyph, p.x, p.y, map, 0);
+                this.addMapLevel_Mob(p, map, rnd);
             }
         }
     }
+    addMapLevel_Mob(p: WPoint, map: DMapIF, rnd: Rnd) {
+        this.addLevelMob(p, map, rnd, map.level);
+    }
+    addLevelMob(p: WPoint, map: DMapIF, rnd: Rnd, baseLevel: number) {
+        let level = rnd.spiceUpLevel(baseLevel);
+        if (level < 1) {
+            level = 1;
+        }
+        let glyph = this.level2Glyph(level);
+        return this.addNPC(glyph, p.x, p.y, map, level)
+    }
+    level2Glyph(level: any) {
+        let glyphIndex: number = level + Glyph.Ant - 1;
+        let glyph = GlyphMap.indexToGlyph(glyphIndex);
+        return glyph;
+    }
+
     makeSheepRing(map: DMapIF, rnd: Rnd) {
         this.makeMobRing(Glyph.Sheep, map, rnd);
     }
@@ -94,8 +108,14 @@ export class Builder implements BuildIF {
     }
     addNPC(g: Glyph, x: number, y: number, map: DMapIF, level: number) {
         let mob = new Mob(g, x, y);
+        this.setLevelStats(mob, level);
         map.addNPC(mob);
         return mob;
+    }
+    setLevelStats(mob: Mob, level: number) {
+        mob.level = level;
+        mob.maxHp = mob.level * 5;
+        mob.hp = mob.maxHp;
     }
 
 
@@ -103,10 +123,9 @@ export class Builder implements BuildIF {
         let wdim = new WPoint(WPoint.StockDims.x, WPoint.StockDims.y);
         var map: DMapIF;
         switch (level) {
-            case 0: map = TestMap.test(wdim, rnd, level); break;
-            // case 0: map = MapGenerator.test(level); break;
+            default:
             case 1: map = MapGenerator.test(level); break;
-            default: map = TestMap.test(wdim, rnd, level); break;
+            case 0: map = TestMap.test(wdim, rnd, level); break;
         }
         return map;
     }

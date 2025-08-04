@@ -49,7 +49,22 @@ export class Rnd extends RndBase {
         let h = this.oneIn(2);
         return new WPoint(h ? a : b, h ? b : a);
     }
-    rndDir(p:WPoint = new WPoint()): WPoint {
+    rndDir(p: WPoint = new WPoint()): WPoint {
         return new WPoint(p.x + this.rndC(-1, 1), p.y + this.rndC(-1, 1));
     }
+
+    spiceUpLevel(L: number): number {
+        if (this.oneIn(3)) {
+            let dir = this.oneIn(3) ? 1 : -1;
+            L = this.spice(L + dir, dir);
+            if (L < 0) {
+                L = 0;
+            }
+        }
+        return L;
+    }
+    spice(level: number, dir: number): number {
+        return this.oneIn(4) ? this.spice(level + dir, dir) : level;
+    }
+
 }

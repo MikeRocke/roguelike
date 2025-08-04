@@ -72,9 +72,10 @@ export class MapGenerator {
     public static test(level:number):DMapIF {
         let dim = TPoint.StockDims;
         let wdim = new WPoint(dim.x, dim.y);
-        let map = new DMap(wdim, Glyph.Rock, level);
+        let map = new DMap(wdim, level, Glyph.Rock);
         let rnd = new Rnd(42);
         let gen = new MapGenerator(map, rnd);
+
         return gen.loop(map, rnd);
 
     }

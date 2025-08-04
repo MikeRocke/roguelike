@@ -17,6 +17,7 @@ export class Mob {
     pos: WPoint = new WPoint();
     hp: number = 3;
     maxHp: number = 3;
+    level: number = 0;
     mood: Mood = Mood.Asleep;
 
     alive(): boolean {

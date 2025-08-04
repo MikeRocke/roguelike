@@ -14,20 +14,43 @@ export class GlyphMap {
         }
     }
 
-    static ensureInit:number = GlyphMap.initGlyphs();
+    static ensureInit: number = GlyphMap.initGlyphs();
     static initGlyphs(): number {
         var add = GlyphMap.add;
         let bg = 'black';
-        add('red','yellow','§', Glyph.Bad);
-        add('#222','#282828','%', Glyph.Rock);
-        add('#444','#555555','#', Glyph.Wall);
-        add(bg, '#123','.', Glyph.Floor);
-        add('#222', '#282828','?', Glyph.Unknown);
-        add(bg, 'orange','@', Glyph.Player);
-        add(bg, '#e2b','a', Glyph.Ant);
-        add(bg, '#43a','b', Glyph.Bat);
-        add(bg, '#6c4','c', Glyph.Cat);
-        add(bg, '#294','s', Glyph.Sheep);
+        add('red', 'yellow', '§', Glyph.Bad);
+        add('#222', '#282828', '%', Glyph.Rock);
+        add('#444', '#555555', '#', Glyph.Wall);
+        add(bg, '#123', '.', Glyph.Floor);
+        add('#222', '#282828', '?', Glyph.Unknown);
+        add(bg, 'orange', '@', Glyph.Player);
+        add(bg, '#bf8', 's', Glyph.Sheep);
+        add(bg, '#bf8', 'a', Glyph.Ant);
+        add(bg, '#bf8', 'b', Glyph.Bat);
+        add(bg, '#bf8', 'c', Glyph.Cat);
+        add(bg, '#bf8', 'd', Glyph.Dog);
+        add(bg, '#bf8', 'e', Glyph.Eye);
+        add(bg, '#bf8', 'f', Glyph.Frog);
+        add(bg, '#bf8', 'g', Glyph.Golem);
+        add(bg, '#bf8', 'h', Glyph.Harpy);
+        add(bg, '#bf8', 'i', Glyph.Imp);
+        add(bg, '#bf8', 'j', Glyph.Jackal);
+        add(bg, '#bf8', 'k', Glyph.Kobold);
+        add(bg, '#bf8', 'l', Glyph.Lich);
+        add(bg, '#bf8', 'm', Glyph.Mold);
+        add(bg, '#bf8', 'n', Glyph.Naga);
+        add(bg, '#bf8', 'o', Glyph.Orc);
+        add(bg, '#bf8', 'p', Glyph.Pirate);
+        add(bg, '#bf8', 'q', Glyph.Quasit);
+        add(bg, '#bf8', 'r', Glyph.Rat);
+        add(bg, '#bf8', 's', Glyph.Snake);
+        add(bg, '#bf8', 't', Glyph.Troll);
+        add(bg, '#bf8', 'u', Glyph.UmberHulk);
+        add(bg, '#bf8', 'v', Glyph.Vampire);
+        add(bg, '#bf8', 'w', Glyph.Worm);
+        add(bg, '#bf8', 'x', Glyph.Xorn);
+        add(bg, '#bf8', 'y', Glyph.Yeti);
+        add(bg, '#bf8', 'z', Glyph.Zombie);
         add(bg, 'orange', '>', Glyph.StairsDown);
         add(bg, 'orange', '<', Glyph.StairsUp);
         add(bg, 'orange', ',', Glyph.DoorsOpen);
@@ -35,8 +58,8 @@ export class GlyphMap {
         return GlyphMap.glyphs.length;
     }
 
-    static add(bg: string, fg: string, c:string, g:Glyph) {
-        let inf:GlyphInfo = new GlyphInfo(g, fg, bg, c);
+    static add(bg: string, fg: string, c: string, g: Glyph) {
+        let inf: GlyphInfo = new GlyphInfo(g, fg, bg, c);
         GlyphMap.warn(g);
         GlyphMap.glyphs[g] = inf;
     }
@@ -46,6 +69,15 @@ export class GlyphMap {
             return;
         }
         console.log(g, ' differs from ', GlyphMap.glyphs.length);
+    }
+
+    static max: number = Object.keys(Glyph).length / 2;
+    static indexToGlyph(index: number): Glyph {
+        if (index < 0 || index >= this.max) {
+            throw `index ${index} is invalid!`;
+        }
+        let glyph: Glyph = <Glyph>index;
+        return glyph;
     }
 
 }
