@@ -5,6 +5,7 @@ import { GameIF } from "model/GameIF";
 import { DMapIF } from "model/DMapIF";
 import { Glyph } from "model/Glyph";
 import { StairCmd } from "./StairCmd";
+import { Object } from "model/Object";
 
 export class MoveCmd extends CmdBase {
     constructor(public dir: WPoint, public me: Mob, public game: GameIF) {
@@ -19,9 +20,20 @@ export class MoveCmd extends CmdBase {
             map.moveMob(this.me, newPoint);
             if (this.me.isPlayer) {
                 this.dealWithStairs(map, newPoint);
+                this.flashIfItem();
             }
         }
         return true;
+    }
+    flashIfItem() {
+        let map: DMapIF = <DMapIF> this.game.currentMap();
+        let np = this.game.player.pos;
+
+        let object: Object|undefined = map.cell(np).object;
+        if (object) {
+            let message = `${object.description()} here.`;
+            this.game.flash(message);
+        }
     }
     dealWithStairs(map: DMapIF, point: WPoint) {
         var dir: number;

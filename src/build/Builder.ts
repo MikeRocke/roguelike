@@ -13,6 +13,7 @@ import { AiSwitcher } from "ai/AiSwitcher";
 import { MapGenerator } from "./MapGenerator";
 import { GlyphMap } from "model/GlyphMap";
 import { MoodAi } from "ai/MoodAi";
+import { ObjectTypes } from "./ObjectTypes";
 
 export class Builder implements BuildIF {
     makeAI(): MobAiIF | null {
@@ -37,11 +38,30 @@ export class Builder implements BuildIF {
         //    this.makeSheepRing(map,rnd);
         this.addLevelStairs(map, level, rnd);
         this.addMobsToLevel(map, rnd);
+        this.addItems(map, rnd);
         return map;
     }
+
+
+    addItems(map: DMapIF, rnd: Rnd) {
+        let dim = map.dim;
+        let p = new WPoint();
+        for (p.y = 1; p.y < dim.y - 1; ++p.y) {
+            for (p.x = 1; p.x < dim.x - 1; ++p.x) {
+
+                if (map.blocked(p)) {
+                    continue;
+                }
+                if (rnd.oneIn(40)) {
+                    ObjectTypes.addRandomObjectForLevel(p, map, rnd, map.level);
+                }
+            }
+        }
+    }
+
     addMobsToLevel(map: DMapIF, rnd: Rnd) {
         switch (map.level) {
-            case 0:  this.makeCatRing(map, rnd); break;
+            case 0: this.makeCatRing(map, rnd); break;
             default: this.makeMobs(map, rnd, 15); break;
         }
     }
@@ -61,6 +81,8 @@ export class Builder implements BuildIF {
             }
         }
     }
+
+
     addMapLevel_Mob(p: WPoint, map: DMapIF, rnd: Rnd) {
         this.addLevelMob(p, map, rnd, map.level);
     }

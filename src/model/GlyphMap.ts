@@ -55,6 +55,13 @@ export class GlyphMap {
         add(bg, 'orange', '<', Glyph.StairsUp);
         add(bg, 'orange', ',', Glyph.DoorsOpen);
         add(bg, 'orange', '+', Glyph.DoorsClosed);
+        add(bg, 'blue', '-', Glyph.Dagger);
+        add(bg, 'red', '(', Glyph.Shield);
+        add(bg, 'purple', '(', Glyph.Cap);
+        add(bg, 'lime', '(', Glyph.Gloves);
+        add(bg, 'blue', '(', Glyph.Cape);
+        add(bg, 'cyan', '(', Glyph.Leggings);
+        add(bg, 'pink', '(', Glyph.Boots);
         return GlyphMap.glyphs.length;
     }
 

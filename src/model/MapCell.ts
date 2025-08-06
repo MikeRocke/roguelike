@@ -1,12 +1,18 @@
 import { Glyph } from "./Glyph";
 import { Mob } from "./Mob";
+import { Object } from "./Object";
 
 export class MapCell {
     mob: Mob | undefined;
     lit: boolean | undefined;
+    object: Object | undefined;
     constructor(public env: Glyph) {}
     glyph(): Glyph {
-        return this.env;
+        if (this.object) {
+            return this.object.glyph;
+        } else {
+            return this.env;
+        }
     }
 
     opaque(): boolean {
@@ -15,4 +21,5 @@ export class MapCell {
     blocked(): boolean {
         return (!!this.mob || this.opaque());
     }
+
 }

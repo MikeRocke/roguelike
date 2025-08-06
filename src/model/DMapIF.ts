@@ -1,5 +1,6 @@
 import { MapCell } from "./MapCell";
 import { Mob } from "./Mob";
+import { Object } from "./Object";
 import { TurnQueue } from "./TurnQueue";
 import { WPoint } from "./WPoint";
 
@@ -14,4 +15,5 @@ export interface DMapIF {
     moveMob(mob: Mob, p: WPoint): void;
     removeMob(mob: Mob): void;
     blocked(p: WPoint): boolean;
+    addObject(obj: Object, p: WPoint): void;
 }

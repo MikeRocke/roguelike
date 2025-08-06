@@ -2,6 +2,7 @@ import { DMapIF } from "./DMapIF";
 import { Glyph } from "./Glyph";
 import { MapCell } from "./MapCell";
 import { Mob } from "./Mob";
+import { Object } from "./Object";
 import { TurnQueue } from "./TurnQueue";
 import { WPoint } from "./WPoint";
 
@@ -60,5 +61,8 @@ export class DMap implements DMapIF {
         }
         let c = this.cell(p);
         return c.blocked();
+    }
+    addObject(obj: Object, p: WPoint): void {
+        this.cell(p).object = obj;
     }
 }
