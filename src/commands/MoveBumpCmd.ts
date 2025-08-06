@@ -19,6 +19,9 @@ export class MoveBumpCmd extends CmdBase {
             return false;
         }
         let cell = map.cell(newPoint);
+        if (cell.mob && cell.mob.glyph == this.me.glyph) {
+            return false;
+        }
         let cmd = cell.mob
             ? new HitCmd(this.me, cell.mob, this.game)
             : new MoveCmd(this.dir, this.me, this.game);
