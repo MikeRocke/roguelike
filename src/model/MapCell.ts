@@ -21,5 +21,8 @@ export class MapCell {
     blocked(): boolean {
         return (!!this.mob || this.opaque());
     }
+    hasObject(): boolean {
+        return this.object != undefined;
+    }
 
 }

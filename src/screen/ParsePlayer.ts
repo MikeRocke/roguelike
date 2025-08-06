@@ -13,6 +13,7 @@ import { LogScreen } from "./LogScreen";
 import { DoorCmd } from "commands/DoorCmd";
 import { CmdDirScreen } from "./CmdDirScreen";
 import { PickUpCmd } from "commands/PickUpCmd";
+import { InventoryScreen } from "./InventoryScreen";
 
 export class ParsePlayer {
     public player: Mob;
@@ -44,7 +45,7 @@ export class ParsePlayer {
     parseKeyCmd(c: string, screenStack: StackIF,
         e: JQuery.KeyDownEvent | null): CmdIF | null {
         let dir = new WPoint();
-        var screen : StackScreenIF | undefined = undefined;
+        var screen: StackScreenIF | undefined = undefined;
         switch (c) {
             case "ArrowLeft":
             case 'h':
@@ -72,7 +73,10 @@ export class ParsePlayer {
                 dir.y -= 1;
                 break;
             case 'q':
-               screen = new LogScreen(this.game, this.maker);
+                screen = new LogScreen(this.game, this.maker);
+                break;
+            case 'i':
+                screen = new InventoryScreen(this.game, this.maker);
                 break;
             case '.':
                 return this.waitCmd();
@@ -92,7 +96,7 @@ export class ParsePlayer {
         return null;
     }
 
-    doorCmd():StackScreenIF {
+    doorCmd(): StackScreenIF {
         let cmd = new DoorCmd(this.player, this.game);
         return new CmdDirScreen(cmd, this.game, this.maker);
     }
