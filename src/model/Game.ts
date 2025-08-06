@@ -7,12 +7,14 @@ import { MsgLog } from "./MsgLog";
 import { Dungeon } from "./Dungeon";
 import { BuildIF } from "build/BuildIF";
 import { AutoHeal } from "commands/AutoHeal";
+import { Bag } from "./Bag";
 
 export class Game implements GameIF {
     ai: MobAiIF | null = null;
     log: MsgLog = new MsgLog();
     dungeon: Dungeon = new Dungeon();
     autoHeal: AutoHeal = new AutoHeal();
+    bag: Bag = new Bag();
 
     constructor(public rnd: Rnd, public player: Mob, public build: BuildIF) {}
     currentMap(): DMapIF | null {

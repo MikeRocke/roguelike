@@ -12,6 +12,7 @@ import { StackScreenIF } from "./stack/StackScreenIF";
 import { LogScreen } from "./LogScreen";
 import { DoorCmd } from "commands/DoorCmd";
 import { CmdDirScreen } from "./CmdDirScreen";
+import { PickUpCmd } from "commands/PickUpCmd";
 
 export class ParsePlayer {
     public player: Mob;
@@ -78,6 +79,8 @@ export class ParsePlayer {
             case 'c':
                 screen = this.doorCmd();
                 break;
+            case 'g':
+                return new PickUpCmd(this.game);
         }
         if (screen) {
             screenStack.push(screen);
