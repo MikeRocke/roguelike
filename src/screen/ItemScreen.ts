@@ -5,6 +5,7 @@ import { TermIF } from "term/TermIF";
 import { Object } from "model/Object";
 import { StackIF } from "./stack/StackIF";
 import { DMapIF } from "model/DMapIF";
+import { WearCmd } from "commands/WearCmd";
 
 export class ItemScreen extends BaseScreen {
     name: string = 'item';
@@ -27,8 +28,16 @@ export class ItemScreen extends BaseScreen {
     onKey(e: JQuery.KeyDownEvent, stack: StackIF): void {
         switch (e.key) {
             case 'd': this.dropItem(stack); break;
+            case 'w': this.wear(stack); break;
             default: stack.pop(); break;
         }
+    }
+    wear(stack: StackIF) {
+        let ok = new WearCmd(this.obj, this.index, this.game).turn();
+        if (ok) {
+            this.popAndNpcLoop(stack);
+        }
+        return ok;
     }
     dropItem(stack: StackIF) {
         if (this.dropBagItem()) {

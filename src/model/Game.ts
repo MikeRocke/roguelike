@@ -8,6 +8,7 @@ import { Dungeon } from "./Dungeon";
 import { BuildIF } from "build/BuildIF";
 import { AutoHeal } from "commands/AutoHeal";
 import { Bag } from "./Bag";
+import { Worn } from "./Worn";
 
 export class Game implements GameIF {
     ai: MobAiIF | null = null;
@@ -15,6 +16,7 @@ export class Game implements GameIF {
     dungeon: Dungeon = new Dungeon();
     autoHeal: AutoHeal = new AutoHeal();
     bag: Bag = new Bag();
+    worn: Worn = new Worn();
 
     constructor(public rnd: Rnd, public player: Mob, public build: BuildIF) {}
     currentMap(): DMapIF | null {

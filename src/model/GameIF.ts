@@ -7,6 +7,7 @@ import { Dungeon } from "./Dungeon";
 import { BuildIF } from "build/BuildIF";
 import { AutoHeal } from "commands/AutoHeal";
 import { Bag } from "./Bag";
+import { Worn } from "./Worn";
 
 export interface GameIF {
     rnd: Rnd;
@@ -17,6 +18,7 @@ export interface GameIF {
     build: BuildIF;
     autoHeal: AutoHeal;
     bag: Bag;
+    worn: Worn;
     currentMap(): DMapIF|null;
     message(s:string):void;
     flash(s:string):void;

@@ -14,6 +14,7 @@ import { DoorCmd } from "commands/DoorCmd";
 import { CmdDirScreen } from "./CmdDirScreen";
 import { PickUpCmd } from "commands/PickUpCmd";
 import { InventoryScreen } from "./InventoryScreen";
+import { WornScreen } from "./WornScreen";
 
 export class ParsePlayer {
     public player: Mob;
@@ -77,6 +78,9 @@ export class ParsePlayer {
                 break;
             case 'i':
                 screen = new InventoryScreen(this.game, this.maker);
+                break;
+            case 'w':
+                screen = new WornScreen(this.game, this.maker);
                 break;
             case '.':
                 return this.waitCmd();
