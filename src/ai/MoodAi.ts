@@ -3,7 +3,7 @@ import { Mob } from "model/Mob";
 import { MobAiIF } from "./MobAiIF";
 import { Mood } from "model/Mood";
 import { SleepAI } from "./SleepAI";
-import { WakeAI } from "./WakeAI";
+import { SpellAI } from "./SpellAI";
 
 export class MoodAi implements MobAiIF {
     constructor(public asleep: MobAiIF, public wake: MobAiIF) {}
@@ -17,8 +17,8 @@ export class MoodAi implements MobAiIF {
         return ai!.turn(me, enemy, game);
     }
 
-    static stockMood(speed: number) : MobAiIF {
-        return new MoodAi(new SleepAI(), new WakeAI(speed));
+    static stockMood(speed: number, spellRate: number) : MobAiIF {
+        return new MoodAi(new SleepAI(), new SpellAI(speed, spellRate));
     }
 
 }

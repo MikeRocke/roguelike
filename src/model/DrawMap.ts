@@ -8,6 +8,9 @@ import { GlyphInfo } from "./GlyphInfo";
 import { GlyphMap } from "./GlyphMap";
 import { GameIF } from "./GameIF";
 import { CanSee } from "commands/CanSee";
+import { ActiveBuffs } from "./ActiveBuffs";
+import { Buff } from "./Buff";
+import { BuffIF } from "./BuffIF";
 
 export class DrawMap {
     static drawMapPlayer(term: TermIF, map: DMapIF, playerPosition: WPoint, game: GameIF) {
@@ -58,6 +61,25 @@ export class DrawMap {
             }
         }
     }
+    static renderBuffs(term: TermIF, buffs: ActiveBuffs, y: number):number {
+        let bmap:Map<Buff, BuffIF> = buffs._map;
+        let bg = '#502';
+        let fg_danger = '#ff3300';
+        for (let [buff, buffIF] of bmap) {
+            let label: string = Buff[buff];
+            let remain:string = this.remain(buffIF);
+            let sbuff: string = `${remain} ${label}`;
+            term.txt(0, y++, sbuff, fg_danger, bg);
+        }
+        let AFF = `AF#${bmap.size}`;
+        term.txt(0, y++, AFF, 'yellow', bg);
+
+        return y;
+    }
+    static remain(buffIF: BuffIF): string {
+        return `${buffIF.time}`;
+    }
+
     static renderMessage(term: TermIF, game: GameIF) {
         let log = game.log;
         if (!log) {
@@ -91,7 +113,8 @@ export class DrawMap {
         term.txt(0, y++, hp, "yellow", "teal");
         term.txt(0, y++, maxHp, "yellow", "teal");
         term.txt(0, y++, level, "yellow", "teal");
-
+        let buffs: ActiveBuffs = player.buffs;
+        y = this.renderBuffs(term, buffs, y);
     }
 
     static outside: MapCell = new MapCell(Glyph.Unknown);

@@ -17,7 +17,7 @@ import { ObjectTypes } from "./ObjectTypes";
 
 export class Builder implements BuildIF {
     makeAI(): MobAiIF | null {
-        return new AiSwitcher(MoodAi.stockMood(1));
+        return new AiSwitcher(MoodAi.stockMood(1, 8));
     }
     makePlayer(): Mob {
         let player = new Mob(Glyph.Player, 20, 12);

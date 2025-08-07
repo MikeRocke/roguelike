@@ -9,7 +9,7 @@ import { MoodAi } from "./MoodAi";
 export class AiSwitcher implements MobAiIF {
     catAi: MobAiIF = new MobAi_cat();
     antAi: MobAiIF = new MobAi_ant();
-    batAi: MobAiIF = MoodAi.stockMood(2);
+    batAi: MobAiIF = MoodAi.stockMood(2, 8);
 
     constructor(public standardAi: MobAiIF) {}
 

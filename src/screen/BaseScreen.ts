@@ -24,6 +24,14 @@ export class BaseScreen implements StackScreenIF {
     onKey(e: JQuery.KeyDownEvent, stack: StackIF): void {
     }
 
+    tickBuffs(m: Mob) {
+        if (m.buffs) {
+            m.buffs.ticks(m, this.game);
+        }
+    }
+    finishTurn(m: Mob) {
+        this.tickBuffs(m);
+    }
 
     npcTurns(stack: StackIF) {
         let player = <Mob>this.game.player;
@@ -41,6 +49,7 @@ export class BaseScreen implements StackScreenIF {
         if (!player.isPlayer) {
             throw `${player.name} is not player?`;
         }
+        this.finishTurn(player);
         if (this.game.autoHeal) {
             this.game.autoHeal.turn(player, this.game);
         }
@@ -58,7 +67,7 @@ export class BaseScreen implements StackScreenIF {
         if (ai) {
             ai.turn(m, player, this.game);
         }
-        return true;
+        this.finishTurn(m);
     }
 
     over(stack: StackIF): boolean {
