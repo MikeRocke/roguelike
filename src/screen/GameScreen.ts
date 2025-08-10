@@ -28,6 +28,7 @@ export class GameScreen extends BaseScreen {
     playerTurn(stack: StackIF, code: string,
         e: JQuery.KeyDownEvent | null): boolean {
         let parser = new ParsePlayer(this.game, this.make);
+
         return parser.parseKeyCodeAsTurn(code, stack, e);
     }
 }

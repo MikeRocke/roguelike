@@ -1,4 +1,5 @@
 import { ActiveBuffs } from "./ActiveBuffs";
+import { Buff } from "./Buff";
 import { Glyph } from "./Glyph";
 import { Mood } from "./Mood";
 import { WPoint } from "./WPoint";
@@ -24,5 +25,8 @@ export class Mob {
 
     alive(): boolean {
         return this.hp > 0;
+    }
+    is(buff:Buff):boolean {
+        return this.buffs.is(buff);
     }
 }

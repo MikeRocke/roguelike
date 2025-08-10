@@ -4,8 +4,11 @@ import { Mob } from "model/Mob";
 import { HealthAdj } from "./HealthAdj";
 import { Rnd } from "model/Rnd";
 import { Worn } from "model/Worn";
+import { Act } from "./Act";
+import { Buff } from "model/Buff";
 
 export class HitCmd extends CmdBase {
+    act: Act = Act.Hit;
     constructor(public me: Mob, public him: Mob, public g: GameIF) {
         super(me, g);
     }
@@ -28,7 +31,15 @@ export class HitCmd extends CmdBase {
             this.game.message(s);
         }
         HealthAdj.adjust(this.him, -dmg, this.g, this.me);
+        this.clearCharm(this.game);
         return true;
+    }
+    clearCharm(game: GameIF) {
+        let him = this.him;
+        if (!him.is(Buff.Charm)) {
+            return;
+        }
+        him.buffs.cleanse(Buff.Charm, game, him);
     }
 
     calcDamage(rnd: Rnd, me: Mob):number {

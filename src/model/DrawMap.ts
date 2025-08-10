@@ -25,6 +25,8 @@ export class DrawMap {
     }
 
     static drawMap(term: TermIF, map: DMapIF, viewpoint: WPoint, playerPosition: WPoint, game: GameIF) {
+        let buffs = game.player.buffs;
+        let blind = buffs && buffs.is(Buff.Blind);
         let unlit: string = '#001';
         let farlit: string = '#124';
         let farDist: number = 50;
@@ -42,8 +44,8 @@ export class DrawMap {
                     cell = this.outside;
                 }
                 let dist: number = w.squareDistance(playerPosition);
-                let far: boolean = (dist > farDist);
-                let seeMob = !!cell.mob && !far && CanSee.canSee(cell.mob.pos, playerPosition, map, true);
+                let far: boolean = (dist > farDist) && !blind;
+                let seeMob = !!cell.mob && !far && (!blind || cell.mob.isPlayer) && CanSee.canSee(cell.mob.pos, playerPosition, map, true);
                 let glyph = (seeMob ? cell.mob!.glyph : cell.glyph());
                 let i: GlyphInfo = GlyphMap.info(glyph);
                 if (far) {

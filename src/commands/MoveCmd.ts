@@ -6,8 +6,11 @@ import { DMapIF } from "model/DMapIF";
 import { Glyph } from "model/Glyph";
 import { StairCmd } from "./StairCmd";
 import { Object } from "model/Object";
+import { Act } from "./Act";
 
 export class MoveCmd extends CmdBase {
+    act: Act = Act.Move;
+
     constructor(public dir: WPoint, public me: Mob, public game: GameIF) {
         super(me, game);
     }

@@ -66,5 +66,7 @@ export class Rnd extends RndBase {
     spice(level: number, dir: number): number {
         return this.oneIn(4) ? this.spice(level + dir, dir) : level;
     }
-
+    percent(rate:number):boolean {
+        return this.rnd(100) < rate;
+    }
 }
