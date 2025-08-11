@@ -22,6 +22,7 @@ export class Mob {
     level: number = 0;
     mood: Mood = Mood.Asleep;
     buffs: ActiveBuffs = new ActiveBuffs();
+    turnsSinceMove: number = 0;
 
     alive(): boolean {
         return this.hp > 0;

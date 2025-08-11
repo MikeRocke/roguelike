@@ -19,9 +19,9 @@ export class HitCmd extends CmdBase {
         let rnd = this.game.rnd;
         let dmg = this.calcDamage(rnd, this.me);
 
-        if(this.him.isPlayer) {
+        if (this.him.isPlayer) {
             let factor = this.game.worn.AC_reduce();
-            dmg = Math.ceil(dmg*factor);
+            dmg = Math.ceil(dmg * factor);
         }
         let rest = (this.him.hp - dmg);
 
@@ -42,8 +42,8 @@ export class HitCmd extends CmdBase {
         him.buffs.cleanse(Buff.Charm, game, him);
     }
 
-    calcDamage(rnd: Rnd, me: Mob):number {
-       let dmg = rnd.rndC(0, this.power(me));
+    calcDamage(rnd: Rnd, me: Mob): number {
+        let dmg = rnd.rndC(0, this.power(me));
         return dmg;
     }
     power(me: Mob): number {
@@ -54,7 +54,16 @@ export class HitCmd extends CmdBase {
         return this.wornPower(game, game.worn);
     }
     wornPower(game: GameIF, worn: Worn): number {
-        return worn.weapon() ? worn.weaponDamage() : this.unarmed();
+        let disarm = game.player.is(Buff.Disarm);
+        if (worn.weapon()) {
+            if (disarm) {
+                game.message(`Player hits bare-handed`);
+
+            } else {
+                return worn.weaponDamage();
+            }
+        }
+        return this.unarmed();
     }
     unarmed(): number {
         return 3;

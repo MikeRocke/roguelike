@@ -7,7 +7,6 @@ import { Able } from "./Able";
 import { Buff } from "model/Buff";
 
 export abstract class CmdBase implements CmdIF {
-    mob: Mob | undefined = undefined;
     act: Act = Act.Act;
 
     constructor(public me: Mob, public game: GameIF) {}
@@ -17,7 +16,7 @@ export abstract class CmdBase implements CmdIF {
     }
     turn(): boolean {
         let r = this.able(
-            <Mob>this.mob, <GameIF>this.game, this.act
+            <Mob>this.me, <GameIF>this.game, this.act
         );
         if (!r.able) {
             return r.turn;
@@ -44,6 +43,19 @@ export abstract class CmdBase implements CmdIF {
             return cant;
         }
         if (this.paralyzed(mob, game)) {
+            return foil;
+        }
+        if (this.asleep(mob, game)) {
+            return foil;
+        }
+        if (this.slow(mob, game)) {
+            return foil;
+        }
+        if (this.freeze(mob, game)) {
+            return foil;
+        }
+
+        if (this.petrify(mob, game)) {
             return foil;
         }
         return able;
@@ -106,5 +118,50 @@ export abstract class CmdBase implements CmdIF {
         }
 
         return paralyzed;
+    }
+    asleep(me:Mob, game:GameIF):boolean {
+        if (!me.is(Buff.Sleep)) {
+            return false;
+        }
+        if (me.isPlayer) {
+            game.flash(`Player sleeps`);
+        }
+        return true;
+    }
+    slow(me:Mob, game:GameIF):boolean {
+        if (!me.is(Buff.Slow)) {
+            return false;
+        }
+        if(game.rnd.oneIn(2)) {
+            return false;
+        }
+        if (me.isPlayer) {
+            game.flash(`Player slowed`);
+        }
+        return true;
+    }
+    freeze(me:Mob, game:GameIF):boolean {
+        if (!me.is(Buff.Freeze)) {
+            return false;
+        }
+        if(game.rnd.oneIn(2)) {
+            return false;
+        }
+        if (me.isPlayer) {
+            game.flash(`Player is frozen`);
+        }
+        return true;
+    }
+    petrify(me:Mob, game:GameIF):boolean {
+        if (!me.is(Buff.Petrify)) {
+            return false;
+        }
+        if(game.rnd.oneIn(2)) {
+            return false;
+        }
+        if (me.isPlayer) {
+            game.flash(`Player is petrified`);
+        }
+        return true;
     }
 }

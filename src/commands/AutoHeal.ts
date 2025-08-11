@@ -1,6 +1,7 @@
 import { GameIF } from "model/GameIF";
 import { Mob } from "model/Mob";
 import { HealthAdj } from "./HealthAdj";
+import { Buff } from "model/Buff";
 
 export class AutoHeal {
     amountToHealMin: number = 1;
@@ -18,9 +19,19 @@ export class AutoHeal {
     }
 
     public static combatReset(mob: Mob, game: GameIF) {
+        this.clearSleep(mob, game);
        let autoHeal = game.autoHeal;
         if (mob.isPlayer && autoHeal) {
             autoHeal.resetHeal();
+        }
+    }
+    static clearSleep(mob: Mob, game: GameIF) {
+        if (!mob.is(Buff.Sleep)) {
+            return;
+        }
+        mob.buffs.cleanse(Buff.Sleep, game, mob);
+        if (mob.isPlayer){
+            game.message(`Player wakes up!`);
         }
     }
 

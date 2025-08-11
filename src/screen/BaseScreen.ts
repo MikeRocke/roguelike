@@ -31,6 +31,7 @@ export class BaseScreen implements StackScreenIF {
     }
     finishTurn(m: Mob) {
         this.tickBuffs(m);
+        ++m.turnsSinceMove;
     }
 
     npcTurns(stack: StackIF) {

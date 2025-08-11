@@ -49,7 +49,10 @@ export class SpellAI implements MobAiIF {
         return spell.npcTurn();
     }
     pickBuff(me: Mob, r: Rnd): Buff {
-        return Buff.Confuse;
+        let range: number = (Buff.Levitate) + 1;
+        let buffIndex:number = me.level % range;
+        let buff:Buff = Buff.Confuse + buffIndex;
+        return buff;
     }
 
 }

@@ -20,6 +20,7 @@ export class MoveCmd extends CmdBase {
         let newPoint = this.dir.plus(this.me.pos);
         let legal = !map.blocked(newPoint);
         if (legal) {
+            this.me.turnsSinceMove = 0;
             map.moveMob(this.me, newPoint);
             if (this.me.isPlayer) {
                 this.dealWithStairs(map, newPoint);
