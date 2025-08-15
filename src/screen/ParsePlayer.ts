@@ -15,6 +15,7 @@ import { CmdDirScreen } from "./CmdDirScreen";
 import { PickUpCmd } from "commands/PickUpCmd";
 import { InventoryScreen } from "./InventoryScreen";
 import { WornScreen } from "./WornScreen";
+import { DigCmd } from "commands/DigCmd";
 
 export class ParsePlayer {
     public player: Mob;
@@ -47,6 +48,8 @@ export class ParsePlayer {
         e: JQuery.KeyDownEvent | null): CmdIF | null {
         let dir = new WPoint();
         var screen: StackScreenIF | undefined = undefined;
+        let shift = e?.shiftKey;
+
         switch (c) {
             case "ArrowLeft":
             case 'h':
@@ -95,7 +98,11 @@ export class ParsePlayer {
             return null;
         }
         if (!dir.empty()) {
-            return this.moveBmpCmd(dir);
+            if (shift) {
+                return this.digCmd(dir);
+            } else {
+                return this.moveBmpCmd(dir);
+            }
         }
         return null;
     }
@@ -110,6 +117,10 @@ export class ParsePlayer {
 
     moveBmpCmd(dir: WPoint): CmdIF {
         return new MoveBumpCmd(dir, this.player, this.game);
+    }
+
+    digCmd(dir: WPoint): CmdIF {
+        return new DigCmd(dir, this.player, this.game);
     }
 
     waitCmd(): CmdIF {
