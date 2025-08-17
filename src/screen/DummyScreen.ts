@@ -6,6 +6,9 @@ import { StackScreenIF } from "./stack/StackScreenIF";
 
 export class DummyScreen implements StackScreenIF {
     constructor(public maker: ScreenMakerIF) {}
+    onTime(stack: StackIF): boolean {
+        return false;
+    }
 
     draw(term: TermIF): void {
         term.txt(1, 1, " Press Key ", "cyan", "blue");

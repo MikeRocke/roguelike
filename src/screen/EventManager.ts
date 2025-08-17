@@ -6,6 +6,18 @@ export class EventManager {
         $('#body1').on('keydown', this.onKey.bind(this));
         $(window).on('resize', this.onResize.bind(this));
         this.onResize();
+        this.initTimer();
+    }
+    initTimer() {
+        let interval_ms = 100;
+        setInterval(this.onTimer.bind(this), interval_ms);
+    }
+
+    onTimer() {
+        let change: boolean = this.screen.onTime();
+        if (change) {
+            this.screen.draw(this.term);
+        }
     }
 
     onResize() {

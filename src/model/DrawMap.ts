@@ -45,6 +45,9 @@ export class DrawMap {
                 }
                 let dist: number = w.squareDistance(playerPosition);
                 let far: boolean = (dist > farDist) && !blind;
+                if (cell.sprite) {
+                    far = false;
+                }
                 let seeMob = !!cell.mob && !far && (!blind || cell.mob.isPlayer) && CanSee.canSee(cell.mob.pos, playerPosition, map, true);
                 let glyph = (seeMob ? cell.mob!.glyph : cell.glyph());
                 let i: GlyphInfo = GlyphMap.info(glyph);

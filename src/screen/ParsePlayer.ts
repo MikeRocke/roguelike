@@ -16,6 +16,7 @@ import { PickUpCmd } from "commands/PickUpCmd";
 import { InventoryScreen } from "./InventoryScreen";
 import { WornScreen } from "./WornScreen";
 import { DigCmd } from "commands/DigCmd";
+import { BulletCmd } from "commands/BulletCmd";
 
 export class ParsePlayer {
     public player: Mob;
@@ -90,6 +91,9 @@ export class ParsePlayer {
             case 'c':
                 screen = this.doorCmd();
                 break;
+            case 'm':
+                screen = this.bulletCmd(screenStack);
+                break;
             case 'g':
                 return new PickUpCmd(this.game);
         }
@@ -106,11 +110,20 @@ export class ParsePlayer {
         }
         return null;
     }
+    bulletCmd(screenStack: StackIF) {
+        return this.dir(
+            new BulletCmd(this.player, this.game, screenStack, this.maker)
+        );
+    }
+    dir(cmd: CmdIF) {
+        return new CmdDirScreen(cmd, this.game, this.maker);
+    }
 
     doorCmd(): StackScreenIF {
         let cmd = new DoorCmd(this.player, this.game);
-        return new CmdDirScreen(cmd, this.game, this.maker);
+        return this.dir(cmd);
     }
+
     moveCmd(dir: WPoint): CmdIF {
         return new MoveCmd(dir, this.player, this.game);
     }

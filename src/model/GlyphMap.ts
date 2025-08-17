@@ -62,6 +62,7 @@ export class GlyphMap {
         add(bg, 'blue', '(', Glyph.Cape);
         add(bg, 'cyan', '(', Glyph.Leggings);
         add(bg, 'pink', '(', Glyph.Boots);
+        add(bg, 'blue', '*', Glyph.Bullet);
         return GlyphMap.glyphs.length;
     }
 

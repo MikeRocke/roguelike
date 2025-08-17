@@ -3,6 +3,9 @@ import { RawScreenIF } from "./RawScreenIF";
 import { TestTerm } from "term/TestTerm";
 
 export class RawTestScreen implements RawScreenIF {
+    onTime(): boolean {
+        return false;
+    }
 
     name="test!";
     key:string="~";
@@ -12,4 +15,5 @@ export class RawTestScreen implements RawScreenIF {
     onKey(e: JQuery.KeyDownEvent): void {
         this.key=`?:${e.key}`;
     }
+    
 }

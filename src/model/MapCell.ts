@@ -6,8 +6,12 @@ export class MapCell {
     mob: Mob | undefined;
     lit: boolean | undefined;
     object: Object | undefined;
+    public sprite: Glyph | undefined;
     constructor(public env: Glyph) {}
     glyph(): Glyph {
+        if (this.sprite) {
+            return this.sprite;
+        }
         if (this.object) {
             return this.object.glyph;
         } else {

@@ -44,10 +44,6 @@ export class ItemScreen extends BaseScreen {
             this.popAndNpcLoop(stack);
         }
     }
-    popAndNpcLoop(stack: StackIF) {
-        stack.pop();
-        this.npcTurns(stack);
-    }
     dropBagItem() {
         let game = this.game;
         let map = <DMapIF> this.game.currentMap();

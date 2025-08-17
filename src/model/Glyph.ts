@@ -8,6 +8,7 @@ export enum Glyph {
     StairsUp,
     DoorsOpen,
     DoorsClosed,
+    Bullet,
     Dagger,
     Shield,
     Cap,

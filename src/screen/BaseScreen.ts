@@ -80,5 +80,12 @@ export class BaseScreen implements StackScreenIF {
         return over;
     }
 
+    popAndNpcLoop(stack: StackIF) {
+        stack.pop();
+        this.npcTurns(stack);
+    }
 
+    onTime(stack: StackIF): boolean {
+        return false;
+    }
 }

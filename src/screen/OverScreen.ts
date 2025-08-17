@@ -6,6 +6,9 @@ import { ScreenMakerIF } from "./ScreenMakerIF";
 export class OverScreen implements StackScreenIF {
 
     constructor(public make: ScreenMakerIF) {}
+    onTime(stack: StackIF): boolean {
+        return false;
+    }
     draw(term: TermIF): void {
         term.txt(1, 1, " GAME OVER! ", "yellow", "red");
     }
@@ -14,5 +17,6 @@ export class OverScreen implements StackScreenIF {
         stack.push(this.make.newGame());
     }
     name = "gameover";
+
 
 }

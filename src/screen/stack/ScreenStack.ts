@@ -5,9 +5,8 @@ import { TermIF } from "term/TermIF";
 import { EventManager } from "screen/EventManager";
 
 export class ScreenStack implements StackIF, RawScreenIF {
-
     name: string = "stack";
-    stack:StackScreenIF[] = [];
+    stack: StackScreenIF[] = [];
 
     draw(term: TermIF): void {
         let screen = this.current();
@@ -17,7 +16,7 @@ export class ScreenStack implements StackIF, RawScreenIF {
     }
     onKey(e: JQuery.KeyDownEvent): void {
         let screen = this.current();
-        if(screen) {
+        if (screen) {
             screen.onKey(e, this);
         }
     }
@@ -35,5 +34,13 @@ export class ScreenStack implements StackIF, RawScreenIF {
         let stack = new ScreenStack();
         stack.push(stackScreen);
         EventManager.runRawScreen(stack);
+    }
+    onTime(): boolean {
+        let change = false;
+        let screen = this.current();
+        if (screen) {
+            change = screen.onTime(this);
+        }
+        return change;
     }
 }
