@@ -5,9 +5,11 @@ import { WPoint } from "model/WPoint";
 import { Act } from "./Act";
 import { Able } from "./Able";
 import { Buff } from "model/Buff";
+import { CostIF } from "./CostIF";
 
 export abstract class CmdBase implements CmdIF {
     act: Act = Act.Act;
+    cost:CostIF|undefined;
 
     constructor(public me: Mob, public game: GameIF) {}
 
@@ -20,6 +22,9 @@ export abstract class CmdBase implements CmdIF {
         );
         if (!r.able) {
             return r.turn;
+        }
+        if (!this.pay()) {
+            return true;
         }
         return this.exec();
     }
@@ -163,5 +168,14 @@ export abstract class CmdBase implements CmdIF {
             game.flash(`Player is petrified`);
         }
         return true;
+    }
+    setCost(cost: CostIF|undefined) {
+        this.cost = cost;
+    }
+    pay():boolean {
+        if (!this.cost) {
+            return true;
+        }
+        return this.cost.pay();
     }
 }

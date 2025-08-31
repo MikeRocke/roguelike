@@ -3,6 +3,7 @@ import { Slot } from "./Slot";
 
 export class Object {
     level: number=0;
+    charges: number =0;
     constructor(public glyph: Glyph, public slot: Slot){}
 
     description(): string {

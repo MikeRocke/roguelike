@@ -18,7 +18,9 @@ export class ObjectTypes {
         { glyph: Glyph.Gloves, slot: Slot.Hands },
         { glyph: Glyph.Cape, slot: Slot.Back },
         { glyph: Glyph.Leggings, slot: Slot.Legs },
-        { glyph: Glyph.Boots, slot: Slot.Feet }
+        { glyph: Glyph.Boots, slot: Slot.Feet },
+        { glyph: Glyph.Potion, slot: Slot.NotWorn},
+        { glyph: Glyph.Scroll, slot: Slot.NotWorn}
     ];
 
     static indexForGlyph(glyph: Glyph): number {
@@ -36,6 +38,9 @@ export class ObjectTypes {
         let objectLevel = rnd.spiceUpLevel(level);
         let object = new Object(template.glyph, template.slot);
         object.level = objectLevel;
+        if (object.glyph == Glyph.Wand) {
+            object.charges = rnd.rnd(1,objectLevel);
+        }
         return object;
     }
     static getTemplate(index: number): ObjectTypeIF {

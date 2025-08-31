@@ -1,11 +1,15 @@
+import { CmdIF } from "commands/CmdIF";
+import { WearCmd } from "commands/WearCmd";
+import { DMapIF } from "model/DMapIF";
 import { GameIF } from "model/GameIF";
+import { Object } from "model/Object";
+import { TermIF } from "term/TermIF";
 import { BaseScreen } from "./BaseScreen";
 import { ScreenMakerIF } from "./ScreenMakerIF";
-import { TermIF } from "term/TermIF";
-import { Object } from "model/Object";
 import { StackIF } from "./stack/StackIF";
-import { DMapIF } from "model/DMapIF";
-import { WearCmd } from "commands/WearCmd";
+import { FindObjectSpell } from "commands/FindObjectSpell";
+import { StackScreenIF } from "./stack/StackScreenIF";
+import { CmdBase } from "commands/CmdBase";
 
 export class ItemScreen extends BaseScreen {
     name: string = 'item';
@@ -29,7 +33,24 @@ export class ItemScreen extends BaseScreen {
         switch (e.key) {
             case 'd': this.dropItem(stack); break;
             case 'w': this.wear(stack); break;
+            case 'u': this.useItem(stack); break;
             default: stack.pop(); break;
+        }
+    }
+    useItem(stack:StackIF) {
+       let game = this.game;
+        let finder = new FindObjectSpell(this.obj, this.index, game, stack, this.make);
+        let spell: CmdIF | StackScreenIF | null = finder.find();
+        if (spell == null) {
+            return;
+        }
+        stack.pop();
+        if (spell instanceof CmdBase) {
+            if (spell.turn()) {
+                this.npcTurns(stack);
+            }
+        } else {
+            stack.push(<StackScreenIF> spell);
         }
     }
     wear(stack: StackIF) {
