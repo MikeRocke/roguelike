@@ -9,7 +9,8 @@ import { CostIF } from "./CostIF";
 
 export abstract class CmdBase implements CmdIF {
     act: Act = Act.Act;
-    cost:CostIF|undefined;
+    cost: CostIF | undefined;
+    target: Mob | undefined;
 
     constructor(public me: Mob, public game: GameIF) {}
 
@@ -102,15 +103,15 @@ export abstract class CmdBase implements CmdIF {
         }
         return rooted;
     }
-    paralyzed(me:Mob, game: GameIF): boolean {
+    paralyzed(me: Mob, game: GameIF): boolean {
         if (!me.is(Buff.Paralyze)) {
             return false;
         }
         let rate = 0;
         switch (this.act) {
-                case Act.Move: rate=33; break;
-                case Act.Hit: rate=25; break;
-                case Act.Act: rate=20; break;
+            case Act.Move: rate = 33; break;
+            case Act.Hit: rate = 25; break;
+            case Act.Act: rate = 20; break;
         }
         let paralyzed = !game.rnd.percent(rate);
         if (paralyzed) {
@@ -124,7 +125,7 @@ export abstract class CmdBase implements CmdIF {
 
         return paralyzed;
     }
-    asleep(me:Mob, game:GameIF):boolean {
+    asleep(me: Mob, game: GameIF): boolean {
         if (!me.is(Buff.Sleep)) {
             return false;
         }
@@ -133,11 +134,11 @@ export abstract class CmdBase implements CmdIF {
         }
         return true;
     }
-    slow(me:Mob, game:GameIF):boolean {
+    slow(me: Mob, game: GameIF): boolean {
         if (!me.is(Buff.Slow)) {
             return false;
         }
-        if(game.rnd.oneIn(2)) {
+        if (game.rnd.oneIn(2)) {
             return false;
         }
         if (me.isPlayer) {
@@ -145,11 +146,11 @@ export abstract class CmdBase implements CmdIF {
         }
         return true;
     }
-    freeze(me:Mob, game:GameIF):boolean {
+    freeze(me: Mob, game: GameIF): boolean {
         if (!me.is(Buff.Freeze)) {
             return false;
         }
-        if(game.rnd.oneIn(2)) {
+        if (game.rnd.oneIn(2)) {
             return false;
         }
         if (me.isPlayer) {
@@ -157,11 +158,11 @@ export abstract class CmdBase implements CmdIF {
         }
         return true;
     }
-    petrify(me:Mob, game:GameIF):boolean {
+    petrify(me: Mob, game: GameIF): boolean {
         if (!me.is(Buff.Petrify)) {
             return false;
         }
-        if(game.rnd.oneIn(2)) {
+        if (game.rnd.oneIn(2)) {
             return false;
         }
         if (me.isPlayer) {
@@ -169,13 +170,16 @@ export abstract class CmdBase implements CmdIF {
         }
         return true;
     }
-    setCost(cost: CostIF|undefined) {
+    setCost(cost: CostIF | undefined) {
         this.cost = cost;
     }
-    pay():boolean {
+    pay(): boolean {
         if (!this.cost) {
             return true;
         }
         return this.cost.pay();
+    }
+    setTarget(target: Mob): void {
+        this.target = target;
     }
 }

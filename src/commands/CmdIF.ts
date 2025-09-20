@@ -7,10 +7,12 @@ export interface CmdIF {
     exec(): boolean;
     turn(): boolean;
     raw(): boolean;
-    setDir(dir: WPoint):CmdIF;
+    setDir(dir: WPoint): CmdIF;
     npcTurn(): boolean;
     me: Mob;
     game: GameIF;
-    cost:CostIF|undefined;
-    setCost(cost:CostIF|undefined):void;
+    cost: CostIF | undefined;
+    setCost(cost: CostIF | undefined): void;
+    target: Mob | undefined;
+    setTarget(mob: Mob): void;
 }

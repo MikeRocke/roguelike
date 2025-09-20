@@ -1,3 +1,4 @@
+import { Spell } from "commands/Spell";
 import { DMapIF } from "model/DMapIF";
 import { Glyph } from "model/Glyph";
 import { Object } from "model/Object";
@@ -19,15 +20,15 @@ export class ObjectTypes {
         { glyph: Glyph.Cape, slot: Slot.Back },
         { glyph: Glyph.Leggings, slot: Slot.Legs },
         { glyph: Glyph.Boots, slot: Slot.Feet },
-        { glyph: Glyph.Potion, slot: Slot.NotWorn},
-        { glyph: Glyph.Scroll, slot: Slot.NotWorn}
+        { glyph: Glyph.Potion, slot: Slot.NotWorn },
+        { glyph: Glyph.Scroll, slot: Slot.NotWorn }
     ];
 
     static indexForGlyph(glyph: Glyph): number {
         return this.objectTypes.findIndex(type => type.glyph == glyph);
     }
 
-    static addObjectTypeToMap(point: WPoint, map: DMapIF, rnd: Rnd, objectType: Glyph, level: number) : Object {
+    static addObjectTypeToMap(point: WPoint, map: DMapIF, rnd: Rnd, objectType: Glyph, level: number): Object {
         let index = this.indexForGlyph(objectType);
         let template = ObjectTypes.getTemplate(index);
         let object = this.makeTemplateObject(level, rnd, template);
@@ -39,7 +40,13 @@ export class ObjectTypes {
         let object = new Object(template.glyph, template.slot);
         object.level = objectLevel;
         if (object.glyph == Glyph.Wand) {
-            object.charges = rnd.rnd(1,objectLevel);
+            object.charges = rnd.rnd(1, objectLevel);
+        }
+        switch (object.glyph) {
+            case Glyph.Potion:
+            case Glyph.Scroll:
+            case Glyph.Wand:
+                this.setItemSpell(object, rnd);
         }
         return object;
     }
@@ -59,6 +66,17 @@ export class ObjectTypes {
         let object = this.randomLevelObject(level, rnd);
         map.addObject(object, p);
         return object;
+    }
+
+    static setItemSpell(object: Object, rnd: Rnd) {
+        let level = rnd.spiceUpLevel(object.level);
+        object.spell = this.spellForLevel(level);
+    }
+
+    static MaxSpell: number = Spell.None;
+    static spellForLevel(level: number): Spell {
+        let spell: Spell = level % this.MaxSpell;
+        return spell;
     }
 
 

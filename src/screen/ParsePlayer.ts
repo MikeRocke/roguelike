@@ -17,6 +17,7 @@ import { InventoryScreen } from "./InventoryScreen";
 import { WornScreen } from "./WornScreen";
 import { DigCmd } from "commands/DigCmd";
 import { BulletCmd } from "commands/BulletCmd";
+import { SpellScreen } from "./SpellScreen";
 
 export class ParsePlayer {
     public player: Mob;
@@ -92,7 +93,8 @@ export class ParsePlayer {
                 screen = this.doorCmd();
                 break;
             case 'm':
-                screen = this.bulletCmd(screenStack);
+                // screen = this.bulletCmd(screenStack);
+                screen = new SpellScreen(this.game, this.maker);
                 break;
             case 'g':
                 return new PickUpCmd(this.game);
