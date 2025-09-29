@@ -9,6 +9,7 @@ import { Glyph } from "model/Glyph";
 import { StepIF } from "./StepIF";
 import { DirStep } from "./DirStep";
 import { StepScreen } from "screen/StepScreen";
+import { PayloadStep } from "./PayloadStep";
 
 export class PayloadCmd extends CmdBase {
     dir: WPoint = new WPoint();

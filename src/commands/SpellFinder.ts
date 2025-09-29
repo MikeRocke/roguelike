@@ -12,6 +12,10 @@ import { BuffCmd } from "./BuffCmd";
 import { CmdDirScreen } from "screen/CmdDirScreen";
 import { BulletCmd } from "./BulletCmd";
 import { TeleportCmd } from "./TeleportCmd";
+import { MultiplyCmd } from "./MultiplyCmd";
+import { SummonCmd } from "./SummonCmd";
+import { PayloadCmd } from "./PayloadCmd";
+import { CleanseAllCmd } from "./CleanseAllCmd";
 
 export class SpellFinder {
     constructor(public game: GameIF, public screenStack: StackIF, public maker: ScreenMakerIF) {
@@ -74,4 +78,10 @@ export class SpellFinder {
     dir(cmd: CmdIF): StackScreenIF {
         return new CmdDirScreen(cmd, this.game, this.maker);
     }
+
+
+}
+interface CmdOrScreen {
+    cmd: CmdIF,
+    s: StackScreenIF
 }

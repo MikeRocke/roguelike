@@ -11,6 +11,8 @@ import { CanSee } from "commands/CanSee";
 import { ActiveBuffs } from "./ActiveBuffs";
 import { Buff } from "./Buff";
 import { BuffIF } from "./BuffIF";
+import { Colours } from "build/Colours";
+import { Spell } from "commands/Spell";
 
 export class DrawMap {
     static drawMapPlayer(term: TermIF, map: DMapIF, playerPosition: WPoint, game: GameIF) {
@@ -57,6 +59,10 @@ export class DrawMap {
                 } else {
                     bg = i.bg;
                     fg = i.fg;
+                    if (cell.object && cell.object.spell != Spell.None) {
+                        fg = Colours.colours[cell.object.spell][1];
+                    }
+
                     if (!cell.lit) {
                         cell.lit = true;
                     }

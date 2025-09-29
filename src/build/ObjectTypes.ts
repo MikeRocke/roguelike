@@ -57,11 +57,11 @@ export class ObjectTypes {
         }
         return ObjectTypes.objectTypes[index];
     }
-    static randomLevelObject(level: number, random: Rnd): Object {
-        let index = random.rnd(ObjectTypes.objectTypes.length);
-        let template = ObjectTypes.getTemplate(index);
-        return this.makeTemplateObject(level, random, template);
+
+    static randomLevelObject(level: number, rnd: Rnd): Object {
+        return this.rareWands(level, rnd);
     }
+
     static addRandomObjectForLevel(p: WPoint, map: DMapIF, rnd: Rnd, level: number): Object {
         let object = this.randomLevelObject(level, rnd);
         map.addObject(object, p);
@@ -77,6 +77,24 @@ export class ObjectTypes {
     static spellForLevel(level: number): Spell {
         let spell: Spell = level % this.MaxSpell;
         return spell;
+    }
+
+    static getRndTemplate(rnd: Rnd): ObjectTypeIF {
+        let index = rnd.rnd(ObjectTypes.objectTypes.length);
+        let template: ObjectTypeIF = ObjectTypes.getTemplate(index);
+        return template;
+    }
+
+    static rareWands(level: number, rnd: Rnd): Object {
+        for (; ;) {
+            let t = this.getRndTemplate(rnd);
+            if (t.glyph == Glyph.Wand) {
+                if (!rnd.percent(level * 3)) {
+                    continue;
+                }
+            }
+            return this.makeTemplateObject(level, rnd, t);
+        }
     }
 
 

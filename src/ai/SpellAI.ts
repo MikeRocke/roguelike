@@ -10,20 +10,22 @@ import { Buff } from "model/Buff";
 import { CanSee } from "commands/CanSee";
 import { DMapIF } from "model/DMapIF";
 import { BuffCmd } from "commands/BuffCmd";
+import { StackIF } from "screen/stack/StackIF";
+import { ScreenMakerIF } from "screen/ScreenMakerIF";
 
 export class SpellAI implements MobAiIF {
     constructor(public speed:number, public spellRate: number) {}
     aiDir:MobAiIF = new MobAi_cat();
     aiRnd:MobAiIF = new MobAi_ant();
 
-    turn(me: Mob, enemy: Mob, game: GameIF): boolean {
+    turn(me: Mob, enemy: Mob, game: GameIF, screenStack: StackIF, maker: ScreenMakerIF): boolean {
         if (this.maybeCastSpell(me, enemy, game)) {
             return true;
         }
         let r = game.rnd;
         for (var i = 0; i < this.speed; ++i) {
             var ai = r.oneIn(2) ? this.aiDir : this.aiRnd;
-            ai.turn(me, enemy, game);
+            ai.turn(me, enemy, game, screenStack, maker);
         }
         let far = !SleepAI.isNear(me, enemy);
         if (far) {

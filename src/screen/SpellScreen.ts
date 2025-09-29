@@ -8,6 +8,7 @@ import { CostIF } from "commands/CostIF";
 import { CmdIF } from "commands/CmdIF";
 import { StackScreenIF } from "./stack/StackScreenIF";
 import { CmdBase } from "commands/CmdBase";
+import { SpellFinder } from "commands/SpellFinder";
 
 export class SpellScreen extends BaseScreen {
     name: string = "spell";

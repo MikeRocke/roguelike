@@ -83,10 +83,10 @@ export class Builder implements BuildIF {
     }
 
 
-    addMapLevel_Mob(p: WPoint, map: DMapIF, rnd: Rnd) {
-        this.addLevelMob(p, map, rnd, map.level);
+    addMapLevel_Mob(p: WPoint, map: DMapIF, rnd: Rnd):Mob {
+        return this.addLevelMob(p, map, rnd, map.level);
     }
-    addLevelMob(p: WPoint, map: DMapIF, rnd: Rnd, baseLevel: number) {
+    addLevelMob(p: WPoint, map: DMapIF, rnd: Rnd, baseLevel: number): Mob {
         let level = rnd.spiceUpLevel(baseLevel);
         if (level < 1) {
             level = 1;

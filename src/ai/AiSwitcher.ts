@@ -5,6 +5,8 @@ import { MobAiIF } from "./MobAiIF";
 import { GameIF } from "model/GameIF";
 import { Glyph } from "model/Glyph";
 import { MoodAi } from "./MoodAi";
+import { StackIF } from "screen/stack/StackIF";
+import { ScreenMakerIF } from "screen/ScreenMakerIF";
 
 export class AiSwitcher implements MobAiIF {
     catAi: MobAiIF = new MobAi_cat();
@@ -13,7 +15,7 @@ export class AiSwitcher implements MobAiIF {
 
     constructor(public standardAi: MobAiIF) {}
 
-    turn(me: Mob, enemy: Mob, game: GameIF): boolean {
+    turn(me: Mob, enemy: Mob, game: GameIF, screenStack: StackIF, maker: ScreenMakerIF): boolean {
         var ai:MobAiIF;
         switch(me.glyph) {
                 case Glyph.Ant: ai = this.antAi; break;
@@ -22,6 +24,6 @@ export class AiSwitcher implements MobAiIF {
                 default: ai=this.standardAi; break;
         }
 
-        return ai.turn(me, enemy, game);
+        return ai.turn(me, enemy, game, screenStack, maker);
     }
 }

@@ -2,7 +2,6 @@ import { GameIF } from "model/GameIF";
 import { ScreenMakerIF } from "screen/ScreenMakerIF";
 import { StackIF } from "screen/stack/StackIF";
 import { CmdIF } from "./CmdIF";
-import { Slot } from "model/Slot";
 import { Object } from "model/Object";
 import { StackScreenIF } from "screen/stack/StackScreenIF";
 import { ChargedItemCost } from "./ChargedItemCost";

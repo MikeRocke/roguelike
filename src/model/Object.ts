@@ -1,6 +1,7 @@
 import { Spell } from "commands/Spell";
 import { Glyph } from "./Glyph";
 import { Slot } from "./Slot";
+import { Colours } from "build/Colours";
 
 export class Object {
     level: number = 0;
@@ -9,6 +10,10 @@ export class Object {
 
     description(): string {
         let label = this.name();
+        if (this.spell != Spell.None) {
+            let quality = Colours.colours[this.spell][1];
+            return `${quality} ${label}`
+        }
         return `${label}${this.level}`;
     }
 

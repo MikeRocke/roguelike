@@ -41,7 +41,7 @@ export class BaseScreen implements StackScreenIF {
         this.finishPlayerTurn(q);
         var mob: Mob;
         for (mob = q.next(); !mob.isPlayer && !this.over(stack); mob = q.next()) {
-            this.npcTurn(mob, player);
+            this.npcTurn(mob, player, stack);
         }
         this.handleMessages(stack);
     }
@@ -63,10 +63,10 @@ export class BaseScreen implements StackScreenIF {
             stack.push(this.make.more(this.game));
         }
     }
-    npcTurn(m: Mob, player: Mob) {
+    npcTurn(m: Mob, player: Mob, stack: StackIF) {
         let ai = this.game.ai;
         if (ai) {
-            ai.turn(m, player, this.game);
+            ai.turn(m, player, this.game, stack, this.make);
         }
         this.finishTurn(m);
     }
