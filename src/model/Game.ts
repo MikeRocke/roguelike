@@ -17,6 +17,7 @@ export class Game implements GameIF {
     autoHeal: AutoHeal = new AutoHeal();
     bag: Bag = new Bag();
     worn: Worn = new Worn();
+    gameWon: boolean = false;
 
     constructor(public rnd: Rnd, public player: Mob, public build: BuildIF) {}
     currentMap(): DMapIF | null {

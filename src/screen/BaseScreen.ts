@@ -72,10 +72,10 @@ export class BaseScreen implements StackScreenIF {
     }
 
     over(stack: StackIF): boolean {
-        let over = !this.game.player.alive();
+        let over = !this.game.player.alive() || this.game.gameWon;
         if (over) {
             stack.pop();
-            stack.push(this.make.gameOver());
+            stack.push(this.make.gameOver(this.game));
         }
         return over;
     }

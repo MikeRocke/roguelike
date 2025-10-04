@@ -19,6 +19,7 @@ export interface GameIF {
     autoHeal: AutoHeal;
     bag: Bag;
     worn: Worn;
+    gameWon: boolean;
     currentMap(): DMapIF|null;
     message(s:string):void;
     flash(s:string):void;

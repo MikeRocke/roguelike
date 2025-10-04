@@ -1,11 +1,11 @@
 import { GameIF } from "model/GameIF";
 import { GameScreen } from "./GameScreen";
-import { OverScreen } from "./OverScreen";
 import { ScreenMakerIF } from "./ScreenMakerIF";
 import { StackScreenIF } from "./stack/StackScreenIF";
 import { BuildIF1 } from "./ScreenMaker";
 import { ScreenStack } from "./stack/ScreenStack";
 import { MoreScreen } from "./MoreScreen";
+import { WinOverScreen } from "./WinOverScreen";
 
 export class ScreenMakerFixed implements ScreenMakerIF {
     game: GameIF | null = null;
@@ -22,8 +22,8 @@ export class ScreenMakerFixed implements ScreenMakerIF {
 
         return new GameScreen(<GameIF> this.game, this);
     }
-    gameOver(): StackScreenIF {
-        return new OverScreen(this);
+    gameOver(game: GameIF|undefined): StackScreenIF {
+        return new WinOverScreen(this, <GameIF> game);
     }
 
     static run_GFirst(m: ScreenMakerIF) {

@@ -30,6 +30,9 @@ export class HealthAdj {
 
     }
     static mobDies(m: Mob, game: GameIF, involvesPlayer: boolean) {
+        if (m.glyph == Glyph.Dragon) {
+            game.gameWon = true;
+        }
         if (involvesPlayer) {
             let s = `${m.name} dies in a fit of agony`;
             game.message(s);

@@ -15,7 +15,7 @@ export class DummyScreen implements StackScreenIF {
     }
     onKey(e: JQuery.KeyDownEvent, stack: StackIF): void {
         stack.pop();
-        stack.push(this.maker.gameOver());
+        stack.push(this.maker.gameOver(undefined));
     }
     name = "dummy-game";
 

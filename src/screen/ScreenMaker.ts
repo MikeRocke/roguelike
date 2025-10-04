@@ -37,7 +37,7 @@ export class ScreenMaker implements ScreenMakerIF {
             build,
             (g: GameIF, sm: ScreenMakerIF) => new DummyScreen(sm),
             (g: GameIF, sm: ScreenMakerIF) => new OverScreen(sm),
-            (sm: ScreenMakerIF) => sm.gameOver()
+            (sm: ScreenMakerIF) => sm.gameOver(undefined)
         );
         this.runDynamic(dyn);
     }
