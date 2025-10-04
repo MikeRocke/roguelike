@@ -14,10 +14,14 @@ export class GlyphMap {
         }
     }
 
-    static ensureInit: number = GlyphMap.initGlyphs();
-    static initGlyphs(): number {
+    static ensureInit: number = GlyphMap.initGlyphs(false);
+    static initGlyphs(hasDragon: boolean): number {
         var add = GlyphMap.add;
+
         let bg = 'black';
+        if (hasDragon) {
+            bg = '#201540';
+        }
         add('red', 'yellow', '§', Glyph.Bad);
         add('#222', '#282828', '%', Glyph.Rock);
         add('#444', '#555555', '#', Glyph.Wall);
@@ -25,6 +29,9 @@ export class GlyphMap {
         add('#222', '#282828', '?', Glyph.Unknown);
         add(bg, 'orange', '@', Glyph.Player);
         add(bg, '#bf8', 's', Glyph.Sheep);
+        add(bg, 'red', 'D', Glyph.Dragon);
+
+
         add(bg, '#bf8', 'a', Glyph.Ant);
         add(bg, '#bf8', 'b', Glyph.Bat);
         add(bg, '#bf8', 'c', Glyph.Cat);
@@ -63,6 +70,9 @@ export class GlyphMap {
         add(bg, 'cyan', '(', Glyph.Leggings);
         add(bg, 'pink', '(', Glyph.Boots);
         add(bg, 'blue', '*', Glyph.Bullet);
+        add(bg, 'orange', '%', Glyph.Fire1);
+        add('yellow', 'orange', '%', Glyph.Fire2);
+        add('orange', 'red', '%', Glyph.Fire3);
         add(bg, 'blue', '!', Glyph.Potion);
         add(bg, 'yellow', '?', Glyph.Scroll);
         add(bg, 'red', '-', Glyph.Wand);

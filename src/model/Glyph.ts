@@ -9,6 +9,9 @@ export enum Glyph {
     DoorsOpen,
     DoorsClosed,
     Bullet,
+    Fire1,
+    Fire2,
+    Fire3,
     Dagger,
     Shield,
     Cap,
@@ -20,7 +23,6 @@ export enum Glyph {
     Scroll,
     Wand,
     Player,
-    Sheep,
     Ant,
     Bat,
     Cat,
@@ -46,5 +48,8 @@ export enum Glyph {
     Worm,
     Xorn,
     Yeti,
-    Zombie
+    Zombie,
+
+    Sheep,
+    Dragon
 }

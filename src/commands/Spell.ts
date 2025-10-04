@@ -23,5 +23,6 @@ export enum Spell {
     D_Bleed,
     D_Levitate,
     D_Disarm,
+    Breath,
     None
 }

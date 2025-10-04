@@ -14,6 +14,7 @@ import { TeleportCmd } from "./TeleportCmd";
 import { MultiplyCmd } from "./MultiplyCmd";
 import { BulletCmd } from "./BulletCmd";
 import { CleanseAllCmd } from "./CleanseAllCmd";
+import { BreathCmd } from "./BreathCmd";
 
 export class NPCSpellFinder {
     player: Mob;
@@ -26,33 +27,33 @@ export class NPCSpellFinder {
         let level = 1;
         var s: StackScreenIF | undefined;
         var cmd: CmdIF;
-        let buff = this.buff;
         switch (spell) {
             case Spell.Heal: cmd = new HealCmd(level, me, game); break;
-            case Spell.D_Charm: (cmd = buff(Buff.Charm, me)); break;
-            case Spell.D_Slow: (cmd = buff(Buff.Slow, me)); break;
-            case Spell.D_Afraid: (cmd = buff(Buff.Afraid, me)); break;
+            case Spell.D_Charm: cmd = this.buff(Buff.Charm, me); break;
+            case Spell.D_Slow: cmd = this.buff(Buff.Slow, me); break;
+            case Spell.D_Afraid: cmd = this.buff(Buff.Afraid, me); break;
             case Spell.Missile: cmd = this.aim(
                 cmd = new BulletCmd(game.player, game, this.screenStack, this.maker)); break;
-            case Spell.D_Poison: (cmd = buff(Buff.Poison, me)); break;
-            case Spell.D_Confuse: (cmd = buff(Buff.Confuse, me)); break;
-            case Spell.D_Silence: (cmd = buff(Buff.Silence, me)); break;
+            case Spell.D_Poison: cmd = this.buff(Buff.Poison, me); break;
+            case Spell.D_Confuse: cmd = this.buff(Buff.Confuse, me); break;
+            case Spell.D_Silence: cmd = this.buff(Buff.Silence, me); break;
             case Spell.Cleanse: cmd = new CleanseAllCmd(me, game); break;
-            case Spell.D_Stun: (cmd = buff(Buff.Stun, me)); break;
-            case Spell.D_Burn: (cmd = buff(Buff.Burn, me)); break;
-            case Spell.D_Blind: (cmd = buff(Buff.Blind, me)); break;
+            case Spell.D_Stun: cmd = this.buff(Buff.Stun, me); break;
+            case Spell.D_Burn: cmd = this.buff(Buff.Burn, me); break;
+            case Spell.D_Blind: cmd = this.buff(Buff.Blind, me); break;
             case Spell.Multiply: cmd = new MultiplyCmd(me, game); break;
-            case Spell.D_Freeze: (cmd = buff(Buff.Freeze, me)); break;
-            case Spell.D_Root: (cmd = buff(Buff.Root, me)); break;
-            case Spell.D_Shock: (cmd = buff(Buff.Shock, me)); break;
+            case Spell.D_Freeze: cmd = this.buff(Buff.Freeze, me); break;
+            case Spell.D_Root: cmd = this.buff(Buff.Root, me); break;
+            case Spell.D_Shock: cmd = this.buff(Buff.Shock, me); break;
             case Spell.Teleport: cmd = new TeleportCmd(6, me, game); break;
-            case Spell.D_Paralyze: (cmd = buff(Buff.Paralyze, me)); break;
-            case Spell.D_Sleep: (cmd = buff(Buff.Sleep, me)); break;
-            case Spell.D_Petrify: (cmd = buff(Buff.Petrify, me)); break;
+            case Spell.D_Paralyze: cmd = this.buff(Buff.Paralyze, me); break;
+            case Spell.D_Sleep: cmd = this.buff(Buff.Sleep, me); break;
+            case Spell.D_Petrify: cmd = this.buff(Buff.Petrify, me); break;
             case Spell.Summon: cmd = new SummonCmd(me, game); break;
-            case Spell.D_Bleed: (cmd = buff(Buff.Bleed, me)); break;
-            case Spell.D_Levitate: (cmd = buff(Buff.Levitate, me)); break;
-            case Spell.D_Disarm: (cmd = buff(Buff.Disarm, me)); break;
+            case Spell.D_Bleed: cmd = this.buff(Buff.Bleed, me); break;
+            case Spell.D_Levitate: cmd = this.buff(Buff.Levitate, me); break;
+            case Spell.D_Disarm: cmd = this.buff(Buff.Disarm, me); break;
+            case Spell.Breath: cmd = this.aim(new BreathCmd(me, game, this.screenStack, this.maker)); break;
             default: return null;
         }
         cmd.setCost(cost);

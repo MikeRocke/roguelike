@@ -24,5 +24,6 @@ export class Colours {
         ['', 'ruby'],
         ['', 'coral'],
         ['', 'taffy'],
+        ['', 'cream']
     ]
 }

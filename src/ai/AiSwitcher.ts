@@ -7,11 +7,13 @@ import { Glyph } from "model/Glyph";
 import { MoodAi } from "./MoodAi";
 import { StackIF } from "screen/stack/StackIF";
 import { ScreenMakerIF } from "screen/ScreenMakerIF";
+import { DragonAI } from "./DragonAI";
 
 export class AiSwitcher implements MobAiIF {
     catAi: MobAiIF = new MobAi_cat();
     antAi: MobAiIF = new MobAi_ant();
     batAi: MobAiIF = MoodAi.stockMood(2, 8);
+    dragonAi: MobAiIF = new DragonAI(2,2);
 
     constructor(public standardAi: MobAiIF) {}
 
@@ -21,6 +23,7 @@ export class AiSwitcher implements MobAiIF {
                 case Glyph.Ant: ai = this.antAi; break;
                 case Glyph.Cat: ai = this.catAi; break;
                 case Glyph.Bat: ai = this.batAi; break;
+                case Glyph.Dragon: ai = this.dragonAi; break;
                 default: ai=this.standardAi; break;
         }
 

@@ -14,4 +14,5 @@ export interface BuildIF {
     makeAI(): MobAiIF | null;
     addNPC(g: Glyph, x: number, y: number, map: DMapIF, level: number): Mob;
     addMapLevel_Mob(p: WPoint, map: DMapIF, rnd: Rnd): Mob;
+    makeDragonLevels(rnd: Rnd, level: number, dragonLevel: number): DMapIF;
 }

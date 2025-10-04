@@ -30,18 +30,26 @@ export class Builder implements BuildIF {
         let player = this.makePlayer();
         let game = new Game(rnd, player, this);
         this.enterFirstLevel(game);
+        this.initDragonLevel(game);
         game.ai = this.makeAI();
         return game;
     }
     makeLevel(rnd: Rnd, level: number): DMapIF {
-        let map = this.makeMap(rnd, level);
-        //    this.makeSheepRing(map,rnd);
+        return this.makeDragonLevels(rnd, level, -1);
+    }
+
+    makeDragonLevels(rnd: Rnd, level: number, dragonLevel: number): DMapIF {
+        let hasDragon = (level == dragonLevel);
+
+        let map = this.makeDragonMaps(rnd, level, dragonLevel);
         this.addLevelStairs(map, level, rnd);
         this.addMobsToLevel(map, rnd);
         this.addItems(map, rnd);
+        if (hasDragon) {
+            this.addDragon(map, rnd);
+        }
         return map;
     }
-
 
     addItems(map: DMapIF, rnd: Rnd) {
         let dim = map.dim;
@@ -83,7 +91,7 @@ export class Builder implements BuildIF {
     }
 
 
-    addMapLevel_Mob(p: WPoint, map: DMapIF, rnd: Rnd):Mob {
+    addMapLevel_Mob(p: WPoint, map: DMapIF, rnd: Rnd): Mob {
         return this.addLevelMob(p, map, rnd, map.level);
     }
     addLevelMob(p: WPoint, map: DMapIF, rnd: Rnd, baseLevel: number): Mob {
@@ -91,9 +99,19 @@ export class Builder implements BuildIF {
         if (level < 1) {
             level = 1;
         }
-        let glyph = this.level2Glyph(level);
+        let glyph = this.level2MobGlyph(level, rnd);
         return this.addNPC(glyph, p.x, p.y, map, level)
     }
+    level2MobGlyph(level: number, rnd: Rnd): Glyph {
+        let glyph = this.level2Glyph(level);
+        if (glyph <= Glyph.Sheep) {
+            return glyph;
+        }
+        let index = rnd.rndC(0, 3);
+        glyph = <Glyph>(Glyph.Sheep - index);
+        return glyph;
+    }
+
     level2Glyph(level: any) {
         let glyphIndex: number = level + Glyph.Ant - 1;
         let glyph = GlyphMap.indexToGlyph(glyphIndex);
@@ -142,14 +160,33 @@ export class Builder implements BuildIF {
 
 
     makeMap(rnd: Rnd, level: number): DMapIF {
+       return this.makeDragonMaps(rnd, level, -1);
+    }
+
+    makeDragonMaps(rnd: Rnd, level: number, dragonLevel: number): DMapIF {
         let wdim = new WPoint(WPoint.StockDims.x, WPoint.StockDims.y);
         var map: DMapIF;
         switch (level) {
             default:
             case 1: map = MapGenerator.test(level); break;
             case 0: map = TestMap.test(wdim, rnd, level); break;
+            case dragonLevel: map= TestMap.test(wdim, rnd, level); break;
         }
         return map;
+    }
+
+    addDragon(map: DMapIF, rnd: Rnd) {
+        let p = <WPoint> FreeSpace.find(Glyph.Floor, map, rnd);
+        this.addNPC(Glyph.Dragon, p.x, p.y, map, 31);
+    }
+
+    initDragonLevel(game: GameIF) {
+        let dungeon = game.dungeon;
+        let r = game.rnd;
+        let minDragon = 37;
+        let maxDragon = 30;
+        dungeon.dragonLevel = r.rndC(minDragon, maxDragon);
+        dungeon.dragonLevel = 1;
     }
     enterFirstLevel(game: GameIF) {
         let dungeon = game.dungeon;
